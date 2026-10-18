@@ -1,9 +1,12 @@
-# Verification
+# Verification — Lecture 03 update
 
-30 unique questions, 10 per level, four distinct options each, one answer index, lecture source positions in bounds. JavaScript syntax passes.
+- Exactly 45 unique questions: 15 Normal, 15 Medium, 15 Hard.
+- Original question objects q001–q030 are unchanged; new q031–q045 cite Lecture 03 PDF pages.
+- Four distinct options and one valid answer index per question; source positions are within lecture bounds.
+- Browser test completed all 45 questions with a 45/45 score and 45 review cards.
+- Lecture 03 original PDF matches its source hash; its URL, download link and inline preview work.
+- Five SVG topology images load in the fundamentals guide, with no horizontal overflow at 390 pixels.
+- JavaScript syntax passes and browser checks recorded no runtime errors.
+- New calculations: CUBIC 1000*0.7=700, cube_root(750)≈9.1 s; W(K+5)=1050; BBR BDP=500000 B and cap≈1000000 B; pacing gains yield 100/60 Mb/s; 10 Gb/s×100 ms BDP=125000000 B.
 
-Browser checks completed a full 30-question exam with a 30/30 score and 30 review cards. Level selection gives 10 questions per level. Resource cards appear after the quiz question. Original file URLs respond successfully, the text view contains 37 slides and its search filters results, and the 390-pixel mobile layout has no horizontal overflow. No browser runtime errors were recorded. Desktop and mobile screenshots were inspected.
-
-Copied lecture files were checked against originals with SHA-256 hashes. Independent calculations: BDP=2,500,000 bytes; minimum scale shift=6; window-limited rate=5.2428 Mb/s; Reno entry=23 MSS and full-ACK exit=20 MSS; SRTT=102.5 ms, RTTVAR=42.5 ms; raw RTO=272.5 ms and RFC-floor RTO=1000 ms; Mathis loss-ratio result=1/10; AIMD rates=65 and 35 Mb/s.
-
-Deployment files are prepared; this update has not been pushed or published.
+This update has not been committed or pushed by the assistant.

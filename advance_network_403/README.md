@@ -1,6 +1,6 @@
 # Advanced Network 403
 
-30 course-grounded MCQs: 10 Normal, 10 Medium, 10 Hard. Four options, one correct answer, explanation, category and lecture position for every question. Includes randomized practice/exam sessions, review, restart, missed-question retry, next-batch continuation, themes and a mobile layout.
+45 course-grounded MCQs: 15 Normal, 15 Medium, 15 Hard. Four options, one correct answer, explanation, category and lecture position for every question. Includes randomized practice/exam sessions, review, restart, missed-question retry, next-batch continuation, themes and a mobile layout.
 
 Sources: supplied Lecture 01 PowerPoint (37 slides) and Lecture 02 PDF (34 pages). The two original files are included in resources/ with download links. Lecture 02 has a browser PDF preview. Lecture 01 has a searchable slide-text view; use the original PPTX for diagrams, animations and full layout. QUESTION-SOURCES.md lists question references.
 
@@ -9,3 +9,7 @@ Publish: copy advance_network_403/ into the root of your existing network reposi
 The included lecture files will become publicly downloadable when this update is published, as requested. No external quiz content was added. Course roadmap topics beyond these two lectures are not tested.
 
 © MOUTASEM-AWAD
+
+Lecture2_summary.pdf is included as an additional downloadable PDF with inline preview. It is a supplementary resource; the question bank cites the three original lectures.
+
+Lecture 03 (36 PDF pages) is included with open/download links and an inline preview. Questions q031–q045 append five questions per difficulty; q001–q030 are unchanged. Lecture 03 questions cover CUBIC, BBR, AQM/ECN and performance optimization.

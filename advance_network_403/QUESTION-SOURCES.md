@@ -1,6 +1,6 @@
 # IN403 question sources
 
-Exactly 30 questions: 10 Normal, 10 Medium, 10 Hard. Source 1 is the supplied PowerPoint (slides 1–37); source 2 is the supplied PDF (pages 1–34). Questions paraphrase or apply the lectures, not the course roadmap topics.
+Exactly 45 questions: 15 Normal, 15 Medium, 15 Hard. Source 1 is the supplied PowerPoint (slides 1–37); source 2 is the supplied PDF (pages 1–34). Source 3 is Lecture 03 (PDF pages 1–36). Questions paraphrase or apply the lectures, not the course roadmap topics.
 
 | ID | Level | Topic | Lecture / position |
 |---|---|---|---|
@@ -34,3 +34,18 @@ Exactly 30 questions: 10 Normal, 10 Medium, 10 Hard. Source 1 is the supplied Po
 | q028 | Hard | Loss recovery | Lecture 2, PDF page 15 |
 | q029 | Hard | Fairness & performance | Lecture 2, PDF page 30 |
 | q030 | Hard | Fairness & performance | Lecture 2, PDF page 28 |
+| q031 | Normal | CUBIC & BBR | Lecture 3, PDF page 8 |
+| q032 | Normal | CUBIC & BBR | Lecture 3, PDF page 15 |
+| q033 | Normal | AQM & ECN | Lecture 3, PDF page 23 |
+| q034 | Normal | AQM & ECN | Lecture 3, PDF page 25 |
+| q035 | Normal | TCP optimization | Lecture 3, PDF page 27 |
+| q036 | Medium | CUBIC & BBR | Lecture 3, PDF page 10 |
+| q037 | Medium | CUBIC & BBR | Lecture 3, PDF page 17 |
+| q038 | Medium | CUBIC & BBR | Lecture 3, PDF page 18 |
+| q039 | Medium | AQM & ECN | Lecture 3, PDF page 23 |
+| q040 | Medium | TCP optimization | Lecture 3, PDF page 28 |
+| q041 | Hard | CUBIC & BBR | Lecture 3, PDF page 8 |
+| q042 | Hard | CUBIC & BBR | Lecture 3, PDF page 8 |
+| q043 | Hard | CUBIC & BBR | Lecture 3, PDF page 16 |
+| q044 | Hard | CUBIC & BBR | Lecture 3, PDF page 17 |
+| q045 | Hard | TCP optimization | Lecture 3, PDF page 30 |

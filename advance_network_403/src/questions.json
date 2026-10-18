@@ -538,5 +538,275 @@
       "lecture": 2,
       "page": 28
     }
+  },
+  {
+    "id": "q031",
+    "difficulty": "Normal",
+    "topic": "CUBIC & BBR",
+    "prompt": "What drives the main CUBIC window-growth function in Lecture 03?",
+    "options": [
+      "Elapsed time since the last window reduction",
+      "Only the number of duplicate ACKs",
+      "The number of DNS requests",
+      "The receiver's application messages"
+    ],
+    "correctIndex": 0,
+    "explanation": "CUBIC uses W(t)=C(t-K)^3+W_max, where t is elapsed time rather than an RTT count.",
+    "source": {
+      "lecture": 3,
+      "page": 8
+    }
+  },
+  {
+    "id": "q032",
+    "difficulty": "Normal",
+    "topic": "CUBIC & BBR",
+    "prompt": "Which two path properties form BBR's model?",
+    "options": [
+      "Bottleneck bandwidth and minimum RTT",
+      "MAC address and subnet mask",
+      "DNS lifetime and port number",
+      "Only packet-loss count and MSS"
+    ],
+    "correctIndex": 0,
+    "explanation": "BBR estimates BtlBw from recent delivery rates and RTprop from recent minimum RTT.",
+    "source": {
+      "lecture": 3,
+      "page": 15
+    }
+  },
+  {
+    "id": "q033",
+    "difficulty": "Normal",
+    "topic": "AQM & ECN",
+    "prompt": "What is bufferbloat?",
+    "options": [
+      "Excessive queueing delay from persistently large queues",
+      "A TCP header without options",
+      "An IP address conflict",
+      "A missing handshake ACK"
+    ],
+    "correctIndex": 0,
+    "explanation": "Large FIFO buffers combined with loss-based sending can keep long queues occupied and greatly increase delay under load.",
+    "source": {
+      "lecture": 3,
+      "page": 23
+    }
+  },
+  {
+    "id": "q034",
+    "difficulty": "Normal",
+    "topic": "AQM & ECN",
+    "prompt": "How can ECN signal congestion without dropping a packet?",
+    "options": [
+      "A router marks CE, which the receiver echoes with ECE",
+      "A router deletes the IP header",
+      "The receiver permanently sets rwnd to zero",
+      "The sender removes all sequence numbers"
+    ],
+    "correctIndex": 0,
+    "explanation": "An ECN-capable packet can be CE-marked, and TCP feedback informs the sender to reduce its sending pressure.",
+    "source": {
+      "lecture": 3,
+      "page": 25
+    }
+  },
+  {
+    "id": "q035",
+    "difficulty": "Normal",
+    "topic": "TCP optimization",
+    "prompt": "What is the purpose of packet pacing?",
+    "options": [
+      "Spread packet transmissions over time to smooth bursts",
+      "Disable all acknowledgments",
+      "Make every packet the same sequence number",
+      "Remove the need for congestion control"
+    ],
+    "correctIndex": 0,
+    "explanation": "Pacing spaces packets instead of sending a large burst that might overflow a shallow buffer.",
+    "source": {
+      "lecture": 3,
+      "page": 27
+    }
+  },
+  {
+    "id": "q036",
+    "difficulty": "Medium",
+    "topic": "CUBIC & BBR",
+    "prompt": "Why does HyStart++ leave slow start when RTT begins to rise?",
+    "options": [
+      "Rising RTT can indicate forming queues and impending overshoot",
+      "Rising RTT proves the application has closed",
+      "It means the receive window is always zero",
+      "It means all packet losses have stopped permanently"
+    ],
+    "correctIndex": 0,
+    "explanation": "The lecture describes delay growth as an early queue signal that helps HyStart++ avoid burst losses from overshooting.",
+    "source": {
+      "lecture": 3,
+      "page": 10
+    }
+  },
+  {
+    "id": "q037",
+    "difficulty": "Medium",
+    "topic": "CUBIC & BBR",
+    "prompt": "In the BBR state machine described in the lecture, what follows STARTUP and why?",
+    "options": [
+      "DRAIN, to remove the queue built while discovering bandwidth",
+      "TIME_WAIT, to close the connection",
+      "PROBE_RTT, to reset all sequence numbers",
+      "LISTEN, to accept a new connection"
+    ],
+    "correctIndex": 0,
+    "explanation": "STARTUP can overshoot capacity; DRAIN temporarily sends below the estimated bottleneck rate until inflight approaches a BDP.",
+    "source": {
+      "lecture": 3,
+      "page": 17
+    }
+  },
+  {
+    "id": "q038",
+    "difficulty": "Medium",
+    "topic": "CUBIC & BBR",
+    "prompt": "Why does the lecture's BBR model periodically enter PROBE_RTT?",
+    "options": [
+      "To reduce inflight data and refresh the minimum RTT estimate",
+      "To measure the largest possible router queue",
+      "To disable pacing for the whole connection",
+      "To renegotiate the IP address"
+    ],
+    "correctIndex": 0,
+    "explanation": "A propagation-delay estimate is easier to refresh when queues are drained; PROBE_RTT briefly reduces inflight data.",
+    "source": {
+      "lecture": 3,
+      "page": 18
+    }
+  },
+  {
+    "id": "q039",
+    "difficulty": "Medium",
+    "topic": "AQM & ECN",
+    "prompt": "What does FQ-CoDel add to CoDel's queue-delay control?",
+    "options": [
+      "Separate flow queues that help isolate interactive traffic from bulk transfers",
+      "A shared queue that always grows without limit",
+      "Encryption of all packets",
+      "Removal of every small packet"
+    ],
+    "correctIndex": 0,
+    "explanation": "Fair queueing separates flows while CoDel controls standing queue delay, limiting interference from a bulk flow.",
+    "source": {
+      "lecture": 3,
+      "page": 23
+    }
+  },
+  {
+    "id": "q040",
+    "difficulty": "Medium",
+    "topic": "TCP optimization",
+    "prompt": "Small VPN transfers work but large downloads stall when packet-too-big messages are blocked. Which diagnosis and remedy match Lecture 03?",
+    "options": [
+      "PMTU black hole; use MTU probing or appropriate MSS clamping",
+      "DNS cache overflow; disable TCP",
+      "SYN flood; increase every packet beyond the MTU",
+      "Zero window; remove the routing table"
+    ],
+    "correctIndex": 0,
+    "explanation": "Tunnel overhead reduces usable MTU. Blocked discovery messages can stall large packets; the lecture lists probing and MSS clamping as remedies.",
+    "source": {
+      "lecture": 3,
+      "page": 28
+    }
+  },
+  {
+    "id": "q041",
+    "difficulty": "Hard",
+    "topic": "CUBIC & BBR",
+    "prompt": "CUBIC has W_max=1000 segments, beta=0.7 and C=0.4. What are the post-loss window and approximate K?",
+    "options": [
+      "700 segments and 9.1 seconds",
+      "500 segments and 9.1 seconds",
+      "700 segments and 750 seconds",
+      "300 segments and 0.4 seconds"
+    ],
+    "correctIndex": 0,
+    "explanation": "The window becomes 1000*0.7=700. K=cube_root(1000*(1-0.7)/0.4)=cube_root(750), approximately 9.1 s.",
+    "source": {
+      "lecture": 3,
+      "page": 8
+    }
+  },
+  {
+    "id": "q042",
+    "difficulty": "Hard",
+    "topic": "CUBIC & BBR",
+    "prompt": "For CUBIC W(t)=0.4(t-K)^3+1000, what is the target window at t=K+5 seconds?",
+    "options": [
+      "1050 segments",
+      "1005 segments",
+      "1020 segments",
+      "1500 segments"
+    ],
+    "correctIndex": 0,
+    "explanation": "Substitute t-K=5: 0.4*125+1000=1050 segments. This is the curve's target, not a guarantee of actual throughput.",
+    "source": {
+      "lecture": 3,
+      "page": 8
+    }
+  },
+  {
+    "id": "q043",
+    "difficulty": "Hard",
+    "topic": "CUBIC & BBR",
+    "prompt": "In the lecture's BBR model, BtlBw=100 Mb/s and RTprop=40 ms. What are one BDP and the approximate 2-BDP cwnd cap in decimal bytes?",
+    "options": [
+      "500000 bytes and 1000000 bytes",
+      "4000000 bytes and 8000000 bytes",
+      "50000 bytes and 100000 bytes",
+      "1000000 bytes and 500000 bytes"
+    ],
+    "correctIndex": 0,
+    "explanation": "100000000 bits/s*0.04 s/8=500000 bytes. The approximate safety cap is twice that, or 1000000 bytes.",
+    "source": {
+      "lecture": 3,
+      "page": 16
+    }
+  },
+  {
+    "id": "q044",
+    "difficulty": "Hard",
+    "topic": "CUBIC & BBR",
+    "prompt": "With BtlBw=80 Mb/s, what pacing rates follow gains of 1.25 and 0.75 in the lecture's PROBE_BW cycle?",
+    "options": [
+      "100 Mb/s then 60 Mb/s",
+      "80 Mb/s then 80 Mb/s",
+      "125 Mb/s then 75 Mb/s",
+      "60 Mb/s then 100 Mb/s"
+    ],
+    "correctIndex": 0,
+    "explanation": "Pacing rate equals gain times BtlBw: 1.25*80=100 and 0.75*80=60 Mb/s.",
+    "source": {
+      "lecture": 3,
+      "page": 17
+    }
+  },
+  {
+    "id": "q045",
+    "difficulty": "Hard",
+    "topic": "TCP optimization",
+    "prompt": "A 10 Gb/s path has 100 ms RTT. Which buffer maximum is large enough to cover one BDP, using decimal path units?",
+    "options": [
+      "134217728 bytes",
+      "67108864 bytes",
+      "16777216 bytes",
+      "65535 bytes"
+    ],
+    "correctIndex": 0,
+    "explanation": "BDP=10000000000*0.1/8=125000000 bytes. Of these choices only 134217728 bytes exceeds that requirement; other bottlenecks can still limit throughput.",
+    "source": {
+      "lecture": 3,
+      "page": 30
+    }
   }
 ]

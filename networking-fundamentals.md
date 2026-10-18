@@ -183,3 +183,67 @@ Remember: Encryption, integrity checking and identity checking solve different p
 ## Course references
 
 Source map: I2208 Part 1 (network basics); Part 2 (layers, devices and addresses); Part 3 (signals and link capacity); Part 6 (Ethernet switching); Part 7 (IP, subnetting, routing and DHCP). I3304 Part 1 (layer recap, IPv4 and ARP); Parts 2–3 (routing); Part 4 (NAT and IPv6); Part 5 (TCP/UDP); Part 6 (application protocols and DNS); Part 7 (security). Examples are simplified applications of these concepts. This is a selection of common fundamentals, not a claim about which questions any particular interviewer will ask.
+
+## Network topologies: picture guide
+
+These original diagrams illustrate physical connection layouts from I2208 Part 1.
+
+### Star
+
+![Star](networking-fundamentals/star.svg)
+
+Devices have separate links to one central hub or switch.
+
+Example: A small office with PCs connected to one switch.
+
+Remember: One device link failing does not cut the other links; the central device is a shared point of failure.
+
+Source: I2208 Part 1, PDF pages 25–27.
+
+### Full mesh
+
+![Full mesh](networking-fundamentals/mesh.svg)
+
+Every device has a direct link to every other device.
+
+Example: Five devices in this drawing need 5×4÷2 = 10 links.
+
+Remember: Extra paths improve resilience, but cabling and port requirements grow quickly.
+
+Source: I2208 Part 1, PDF pages 23–25.
+
+### Bus
+
+![Bus](networking-fundamentals/bus.svg)
+
+Devices share one long backbone cable, using short drop connections.
+
+Example: A shared-cable layout used in early LANs.
+
+Remember: A backbone break can interrupt the shared network.
+
+Source: I2208 Part 1, PDF pages 28–29.
+
+### Ring
+
+![Ring](networking-fundamentals/ring.svg)
+
+Each device connects to its two neighbors, forming a closed loop.
+
+Example: Follow the connected loop from A through the other devices and back to A.
+
+Remember: The notes describe a basic one-direction ring; a break can disable it unless protection is added.
+
+Source: I2208 Part 1, PDF pages 30–31.
+
+### Hybrid
+
+![Hybrid](networking-fundamentals/hybrid.svg)
+
+A network combines topology types instead of using only one.
+
+Example: The notes show a central star connected to bus branches, illustrated here.
+
+Remember: Identify each part separately: the central star and the two shared backbones.
+
+Source: I2208 Part 1, PDF pages 31.
