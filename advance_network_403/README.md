@@ -1,15 +1,23 @@
 # Advanced Network 403
 
-45 course-grounded MCQs: 15 Normal, 15 Medium, 15 Hard. Four options, one correct answer, explanation, category and lecture position for every question. Includes randomized practice/exam sessions, review, restart, missed-question retry, next-batch continuation, themes and a mobile layout.
+60 lecture-grounded questions: 20 Normal, 20 Medium and 20 Hard. Each has four distinct options, one correct answer, an explanation, a topic and a slide/PDF-page reference.
 
-Sources: supplied Lecture 01 PowerPoint (37 slides) and Lecture 02 PDF (34 pages). The two original files are included in resources/ with download links. Lecture 02 has a browser PDF preview. Lecture 01 has a searchable slide-text view; use the original PPTX for diagrams, animations and full layout. QUESTION-SOURCES.md lists question references.
+Features include randomized practice/exam sessions, 10/20/all sessions, topic filters, next-batch continuation, scoring, review, retry and themes. Progress stays in the current page session.
 
-Publish: copy advance_network_403/ into the root of your existing network repository and replace the root index.html with the updated one to show its homepage link. Commit and push. Keep GitHub Pages set to main and /(root). The published path is /network-2208-3304/advance_network_403/ for the existing repository name.
+## Sources and file controls
 
-The included lecture files will become publicly downloadable when this update is published, as requested. No external quiz content was added. Course roadmap topics beyond these two lectures are not tested.
+- Lecture 01: TCP Deep Dive I, 37-slide PowerPoint, searchable slide-text view and original download.
+- Lecture 02: TCP Congestion Control I, 34-page PDF, inline preview, open and download.
+- Lecture 02 summary: supplementary 22-page PDF, inline preview, open and download.
+- Lecture 03: CUBIC, BBR and Optimization, 36-page PDF, inline preview, open and download.
+- Lecture 04: QoS Fundamentals and Traffic Shaping, 30-slide PowerPoint, searchable slide-text view, inline text preview and original download.
+
+PowerPoint text views do not reproduce diagrams, animations or full slide layout. The original files retain those features. The summary is a revision resource; question references cite the four lectures. QUESTION-SOURCES.md lists every question reference.
+
+q001–q045 were preserved when q046–q060 were appended for Lecture 04 (five per difficulty). The new topics cover QoS metrics, application requirements, classification/marking, token buckets, policing/shaping and HTB. Arithmetic questions state their assumptions and units.
+
+## Publish
+
+Copy advance_network_403 into your existing network repository. Commit and push. Keep GitHub Pages set to main and /(root). The course URL is /network-2208-3304/advance_network_403/ for the existing repository name. Lecture files will be publicly downloadable when published.
 
 © MOUTASEM-AWAD
-
-Lecture2_summary.pdf is included as an additional downloadable PDF with inline preview. It is a supplementary resource; the question bank cites the three original lectures.
-
-Lecture 03 (36 PDF pages) is included with open/download links and an inline preview. Questions q031–q045 append five questions per difficulty; q001–q030 are unchanged. Lecture 03 questions cover CUBIC, BBR, AQM/ECN and performance optimization.

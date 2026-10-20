@@ -808,5 +808,275 @@
       "lecture": 3,
       "page": 30
     }
+  },
+  {
+    "id": "q046",
+    "difficulty": "Normal",
+    "topic": "QoS fundamentals",
+    "prompt": "What can QoS do when a link is congested?",
+    "options": [
+      "Redistribute delay and loss among traffic classes",
+      "Create extra physical link capacity",
+      "Eliminate propagation delay",
+      "Guarantee every application unlimited throughput"
+    ],
+    "correctIndex": 0,
+    "explanation": "QoS decides which traffic waits or is dropped; it does not make the link faster.",
+    "source": {
+      "lecture": 4,
+      "page": 5
+    }
+  },
+  {
+    "id": "q047",
+    "difficulty": "Normal",
+    "topic": "QoS fundamentals",
+    "prompt": "Which QoS metric describes variation in packet delay?",
+    "options": [
+      "Jitter",
+      "Availability",
+      "Token rate",
+      "MSS"
+    ],
+    "correctIndex": 0,
+    "explanation": "Jitter is the variation in delay between packets of a flow.",
+    "source": {
+      "lecture": 4,
+      "page": 7
+    }
+  },
+  {
+    "id": "q048",
+    "difficulty": "Normal",
+    "topic": "Classification & marking",
+    "prompt": "What is the purpose of marking in the QoS pipeline?",
+    "options": [
+      "Write a traffic class into a packet header",
+      "Increase the packet payload",
+      "Replace routing with ARP",
+      "Remove all packet headers"
+    ],
+    "correctIndex": 0,
+    "explanation": "Markings such as DSCP let later devices apply the appropriate class policy.",
+    "source": {
+      "lecture": 4,
+      "page": 12
+    }
+  },
+  {
+    "id": "q049",
+    "difficulty": "Normal",
+    "topic": "Traffic conditioning",
+    "prompt": "In a token bucket, what does bucket depth b represent?",
+    "options": [
+      "The maximum number of tokens that can be saved",
+      "The number of routers on the path",
+      "A compulsory fixed delay for every packet",
+      "The receiver's TCP sequence number"
+    ],
+    "correctIndex": 0,
+    "explanation": "Tokens accumulate up to depth b, permitting a burst after an idle period.",
+    "source": {
+      "lecture": 4,
+      "page": 17
+    }
+  },
+  {
+    "id": "q050",
+    "difficulty": "Normal",
+    "topic": "Traffic conditioning",
+    "prompt": "How does policing normally handle excess traffic?",
+    "options": [
+      "Drop or re-mark it without buffering it for later",
+      "Queue every excess packet indefinitely",
+      "Double the link speed",
+      "Always retransmit it immediately"
+    ],
+    "correctIndex": 0,
+    "explanation": "Policing enforces a contract by dropping or re-marking excess; shaping instead queues and delays it.",
+    "source": {
+      "lecture": 4,
+      "page": 21
+    }
+  },
+  {
+    "id": "q051",
+    "difficulty": "Medium",
+    "topic": "QoS fundamentals",
+    "prompt": "Why should an interactive voice call and a bulk backup receive different QoS treatment?",
+    "options": [
+      "Voice needs low delay and jitter, while a backup can tolerate waiting",
+      "Backups require lower delay than all voice traffic",
+      "Both must always use identical priority",
+      "Voice cannot share a network with TCP"
+    ],
+    "correctIndex": 0,
+    "explanation": "Application sensitivity differs: timely delivery matters for calls, while backups primarily need throughput.",
+    "source": {
+      "lecture": 4,
+      "page": 10
+    }
+  },
+  {
+    "id": "q052",
+    "difficulty": "Medium",
+    "topic": "QoS fundamentals",
+    "prompt": "What is the main tradeoff when enlarging a real-time application's play-out buffer?",
+    "options": [
+      "It absorbs more jitter but adds delay",
+      "It eliminates propagation time",
+      "It guarantees zero loss everywhere",
+      "It creates more WAN bandwidth"
+    ],
+    "correctIndex": 0,
+    "explanation": "A play-out buffer smooths delay variation by holding packets, increasing the receiver's waiting time.",
+    "source": {
+      "lecture": 4,
+      "page": 8
+    }
+  },
+  {
+    "id": "q053",
+    "difficulty": "Medium",
+    "topic": "Classification & marking",
+    "prompt": "An untrusted laptop marks all traffic high priority. What policy matches the lecture's trust boundary?",
+    "options": [
+      "Re-classify and re-mark it at the access edge",
+      "Trust every endpoint marking automatically",
+      "Disable all routing in the core",
+      "Give it unlimited bandwidth"
+    ],
+    "correctIndex": 0,
+    "explanation": "The access edge should not blindly accept priority markings from untrusted devices.",
+    "source": {
+      "lecture": 4,
+      "page": 15
+    }
+  },
+  {
+    "id": "q054",
+    "difficulty": "Medium",
+    "topic": "Traffic conditioning",
+    "prompt": "Which distinction between the lecture's leaky bucket and token bucket is correct?",
+    "options": [
+      "Leaky bucket smooths output; token bucket permits bursts using saved tokens",
+      "Both require unlimited bursts at all times",
+      "Token bucket always drops every idle flow",
+      "Leaky bucket stores only TCP sequence numbers"
+    ],
+    "correctIndex": 0,
+    "explanation": "The leaky-bucket queue model releases traffic at a constant rate; saved tokens allow conforming bursts in a token bucket.",
+    "source": {
+      "lecture": 4,
+      "page": 18
+    }
+  },
+  {
+    "id": "q055",
+    "difficulty": "Medium",
+    "topic": "Linux traffic control",
+    "prompt": "What do rate and ceil mean for a Linux HTB class?",
+    "options": [
+      "A guaranteed rate and a higher ceiling reachable by borrowing spare capacity",
+      "Two unrelated TCP port numbers",
+      "A fixed packet size and an IP address",
+      "Minimum and maximum TTL values"
+    ],
+    "correctIndex": 0,
+    "explanation": "HTB rate supplies the class guarantee, while ceil limits how much it can borrow when parent capacity is available.",
+    "source": {
+      "lecture": 4,
+      "page": 26
+    }
+  },
+  {
+    "id": "q056",
+    "difficulty": "Hard",
+    "topic": "Traffic conditioning",
+    "prompt": "A full token bucket has r=2 Mb/s and b=250000 bytes, on a 10 Mb/s line. How long can it sustain a line-rate burst?",
+    "options": [
+      "0.25 seconds",
+      "0.20 seconds",
+      "1.00 second",
+      "2.50 seconds"
+    ],
+    "correctIndex": 0,
+    "explanation": "b=2000000 bits. Tokens drain at 10-2=8 Mb/s, so the full bucket lasts 2/8=0.25 s.",
+    "source": {
+      "lecture": 4,
+      "page": 20
+    }
+  },
+  {
+    "id": "q057",
+    "difficulty": "Hard",
+    "topic": "Traffic conditioning",
+    "prompt": "A token bucket has r=1 Mb/s and b=50000 bytes. What token-bucket upper bound applies over 2 seconds, assuming no tighter link-rate limit?",
+    "options": [
+      "300000 bytes",
+      "250000 bytes",
+      "2000000 bytes",
+      "50000 bytes"
+    ],
+    "correctIndex": 0,
+    "explanation": "The allowance is r*t+b: 2000000 bits plus 400000 bits equals 2400000 bits, or 300000 bytes.",
+    "source": {
+      "lecture": 4,
+      "page": 29
+    }
+  },
+  {
+    "id": "q058",
+    "difficulty": "Hard",
+    "topic": "Traffic conditioning",
+    "prompt": "A full bucket has r=2 Mb/s and b=250000 bytes on a 10 Mb/s line. Ignoring packetization, what is the maximum data sent in 0.1 seconds?",
+    "options": [
+      "125000 bytes",
+      "275000 bytes",
+      "250000 bytes",
+      "25000 bytes"
+    ],
+    "correctIndex": 0,
+    "explanation": "The bucket allows 275000 bytes, but the line can carry only 10 Mb/s*0.1 s/8=125000 bytes. The smaller bound applies.",
+    "source": {
+      "lecture": 4,
+      "page": 20
+    }
+  },
+  {
+    "id": "q059",
+    "difficulty": "Hard",
+    "topic": "Traffic conditioning",
+    "prompt": "A token-bucket shaper currently has 500 byte-tokens. A 1500-byte packet is next, r=100000 byte-tokens/s and b is at least 1500. Ignoring other delays, how long must it wait for enough tokens?",
+    "options": [
+      "10 milliseconds",
+      "15 milliseconds",
+      "5 milliseconds",
+      "100 milliseconds"
+    ],
+    "correctIndex": 0,
+    "explanation": "The deficit is 1500-500=1000 tokens. Refill time is 1000/100000=0.01 s, or 10 ms.",
+    "source": {
+      "lecture": 4,
+      "page": 18
+    }
+  },
+  {
+    "id": "q060",
+    "difficulty": "Hard",
+    "topic": "Linux traffic control",
+    "prompt": "An HTB parent supplies 100 Mb/s. Class A has rate=20 Mb/s and ceil=50 Mb/s; another class is guaranteed and uses 65 Mb/s. With no other traffic, what is A's highest rate under these limits?",
+    "options": [
+      "35 Mb/s",
+      "50 Mb/s",
+      "20 Mb/s",
+      "100 Mb/s"
+    ],
+    "correctIndex": 0,
+    "explanation": "Only 100-65=35 Mb/s remains in the parent. A may borrow above its 20 Mb/s guarantee, but cannot exceed the available 35 Mb/s or its 50 Mb/s ceiling.",
+    "source": {
+      "lecture": 4,
+      "page": 26
+    }
   }
 ]

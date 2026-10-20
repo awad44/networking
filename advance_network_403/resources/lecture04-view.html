@@ -1,0 +1,583 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lecture 04 · QoS slide-text view</title><style>body{margin:0;background:#f5f4ee;color:#183c2c;font:16px/1.6 system-ui}main{max-width:900px;margin:auto;padding:25px}article{padding:20px;border:1px solid #bccbbf;background:white;border-radius:10px;margin:16px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}input{width:100%;box-sizing:border-box;padding:14px;font:inherit}a{color:inherit}h1{line-height:1.2}footer{padding:25px}@media(max-width:500px){main{padding:15px}article{padding:15px}}</style><main><a href="../">← Advanced Network 403</a><h1>Lecture 04 · QoS Fundamentals &amp; Traffic Shaping</h1><p>30 slides · Searchable text extracted from the supplied PowerPoint. This view does not reproduce slide diagrams, animations or full layout.</p><a href="IN403_Lecture04_QoS_Fundamentals_Traffic_Shaping.pptx" download>Download original PowerPoint ↓</a><p><label for="search">Search slide text</label></p><input id="search" type="search" placeholder="Try: token bucket, jitter, shaping"><p id="count" role="status">30 slides shown</p><article><h2>Slide 1</h2><pre>IN403  ·  Advanced Network Protocols, Architectures &amp; Security
+
+LECTURE 04  ·  2 HOURS
+
+Quality of Service I: Fundamentals, Policing &amp; Traffic Shaping
+
+QoS metrics and application requirements, classification and marking, token buckets, shaping vs policing
+
+Course topic: Quality of Service (QoS)</pre></article><article><h2>Slide 2</h2><pre>Learning objectives
+
+By the end of this session you will be able to:
+
+1
+
+Define QoS metrics: bandwidth, delay, jitter, loss and availability
+
+2
+
+Map application classes to their QoS requirements
+
+3
+
+Describe the QoS toolchain: classify, mark, police, shape, queue, drop
+
+4
+
+Explain leaky-bucket and token-bucket algorithms and compute their parameters
+
+5
+
+Distinguish shaping from policing and choose between them
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+2</pre></article><article><h2>Slide 3</h2><pre>Session plan (120 minutes)
+
+10′
+
+20′
+
+20′
+
+10′
+
+30′
+
+20′
+
+10′
+
+0:00 – 0:10
+
+Why QoS? Best effort and its limits
+
+0:10 – 0:30
+
+QoS metrics and application requirements
+
+0:30 – 0:50
+
+The QoS toolchain: classification and marking
+
+0:50 – 1:00
+
+Break
+
+1:00 – 1:30
+
+Leaky bucket, token bucket, shaping and policing
+
+1:30 – 1:50
+
+Activity: token-bucket calculations
+
+1:50 – 2:00
+
+Quiz and wrap-up
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+3</pre></article><article><h2>Slide 4</h2><pre>01
+
+Why Quality of Service?
+
+Best effort is fair — but not all traffic is equal
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+4</pre></article><article><h2>Slide 5</h2><pre>The case for QoS
+
+IP is best effort: every packet treated equally, no guarantees on delay or loss
+Converged networks carry voice, video, interactive and bulk traffic on the same links
+Congestion is local and transient: a 1 Gb/s access link feeding a 100 Mb/s WAN link will queue
+Over-provisioning helps but is expensive and fails at bottlenecks (WAN, wireless, uplinks)
+QoS = managed unfairness: decide who suffers when resources are scarce
+
+Q
+
+QoS does not create bandwidth
+
+QoS only redistributes delay, jitter and loss among traffic classes during congestion. If there is no congestion, QoS has nothing to do.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+5</pre></article><article><h2>Slide 6</h2><pre>The case for QoS
+
+EXPLAINED
+
+IP networks are best effort: routers forward packets in the order they arrive and drop them when queues are full, without knowing what the packets carry. This is simple and fair, but it treats a voice packet that must arrive within 150 ms exactly like a backup packet that could wait minutes.
+Today a single link often carries voice, video conferencing, business applications, web browsing and large backups together. Whenever the offered traffic exceeds the link speed — even for a few milliseconds — a queue builds. Without QoS, the voice packet waits behind backup packets and the call becomes choppy.
+Quality of Service is the set of mechanisms that decide who waits and who is dropped when there is congestion. It cannot make a link faster; it only redistributes delay and loss so that the most sensitive traffic is protected.
+
+EXAMPLE
+
+A branch office has a 1 Gb/s LAN but a 50 Mb/s WAN link. When a user starts a large download, the WAN queue fills and the CEO’s video call freezes. QoS lets the router send call packets first.
+
+REMEMBER
+
+QoS matters only at congestion points (WAN links, uplinks, Wi-Fi). It is “managed unfairness”.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+6</pre></article><article><h2>Slide 7</h2><pre>QoS metrics
+
+B
+
+Bandwidth
+
+Throughput available to a flow or class (b/s). Guaranteed minimum or capped maximum.
+
+D
+
+Delay (latency)
+
+One-way end-to-end: propagation + transmission + processing + queueing. Only queueing is controllable by QoS.
+
+J
+
+Jitter
+
+Variation in delay between packets of a flow (IPDV, RFC 3393). Absorbed by play-out buffers at the cost of extra delay.
+
+L
+
+Loss
+
+Fraction of packets dropped, mostly from queue overflow or policing. Also burst-loss patterns matter.
+
+A
+
+Availability
+
+Fraction of time the service meets its targets — usually written into an SLA (e.g. 99.99%).
+
+O
+
+Ordering
+
+Reordering confuses TCP (spurious dupACKs). QoS must avoid splitting a flow across queues.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+7</pre></article><article><h2>Slide 8</h2><pre>QoS metrics
+
+EXPLAINED
+
+QoS is described with a small set of measurable quantities. Bandwidth is how much data per second a class can send. Delay is the time from sender to receiver; it is the sum of transmission time (pushing bits onto the wire), propagation time (distance), processing time and queueing time. Only queueing time can be controlled by QoS.
+Jitter is the variation in delay between consecutive packets. Real-time applications use a play-out buffer to smooth it out, but a bigger buffer means more delay. Loss is the fraction of packets dropped, usually because a queue was full or a policer discarded excess traffic.
+In service contracts these are combined with availability (the percentage of time targets are met). Also important is that packets of the same flow stay in order: splitting a TCP flow across queues can reorder packets and trigger false retransmissions.
+
+EXAMPLE
+
+Two VoIP packets sent 20 ms apart arrive 20 ms and 45 ms after sending: delay is 20 and 45 ms, jitter is 25 ms. The receiver’s jitter buffer must hold at least 25 ms of audio.
+
+REMEMBER
+
+Bandwidth, delay, jitter, loss (plus availability). QoS controls queueing — the variable part of delay.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+8</pre></article><article><h2>Slide 9</h2><pre>Application requirements
+
+Targets based on ITU-T G.114 and common enterprise QoS design guides.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+9</pre></article><article><h2>Slide 10</h2><pre>Application requirements
+
+EXPLAINED
+
+Applications differ hugely in what they can tolerate. Interactive voice needs a one-way delay below about 150 ms (ITU-T G.114), low jitter and less than about 1% loss, but very little bandwidth per call. Interactive video has similar delay targets but needs far more bandwidth.
+Streaming video is buffered several seconds ahead, so it tolerates delay and jitter well but needs sustained throughput. Interactive data (web apps, ERP) needs reasonable response times. Bulk transfers such as backups care only about total throughput and can absorb delay and loss because TCP recovers.
+A good QoS design starts by listing the organisation’s applications and placing each in one of these classes. The class determines the queue, the bandwidth guarantee and the drop behaviour it will receive.
+
+EXAMPLE
+
+A Netflix stream can pause for a second without the user noticing (buffer). A one-second pause in a phone call is unacceptable.
+
+REMEMBER
+
+Classify applications by sensitivity to delay, jitter and loss — not by how “important” the user thinks they are.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+10</pre></article><article><h2>Slide 11</h2><pre>02
+
+The QoS toolchain
+
+From classification at the edge to scheduling in the core
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+11</pre></article><article><h2>Slide 12</h2><pre>Per-hop QoS pipeline
+
+1
+
+Classify
+
+Identify traffic by ports, addresses, DSCP, VLAN PCP, or deep packet inspection (NBAR).
+
+2
+
+Mark
+
+Write the class into the packet: DSCP in IP, PCP in 802.1Q, EXP/TC in MPLS.
+
+3
+
+Police / shape
+
+Enforce a traffic contract: drop or re-mark excess (police) or delay it (shape).
+
+4
+
+Queue &amp; schedule
+
+Place classes in separate queues and decide service order (PQ, WFQ, DRR).
+
+5
+
+Drop / AQM
+
+Choose what to drop when queues fill: tail drop, WRED, CoDel.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+12</pre></article><article><h2>Slide 13</h2><pre>Per-hop QoS pipeline
+
+EXPLAINED
+
+Inside a router or switch, QoS is a pipeline of tools. Classification identifies which class a packet belongs to — by IP addresses, ports, protocol, existing markings or even application signatures. Marking writes the class into the packet header so later devices do not have to classify again.
+Policing and shaping enforce rate limits defined in a contract. Queueing and scheduling place each class into its own queue and decide which queue to serve next. Dropping / AQM decides which packets to discard when a queue grows too long.
+Expensive classification is done once at the network edge, where traffic enters and flow counts are small. Core routers only read the marking and apply the corresponding queue and drop policy, which keeps them fast and simple.
+
+EXAMPLE
+
+An access switch sees traffic from an IP phone on UDP ports 16384–32767, marks it EF. Every router along the path then puts EF packets into its priority queue without inspecting ports again.
+
+REMEMBER
+
+Classify and mark at the edge; queue, schedule and drop according to the mark everywhere else.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+13</pre></article><article><h2>Slide 14</h2><pre>Where QoS markings live
+
+Layer 2 — 802.1Q PCP
+
+3-bit Priority Code Point (CoS 0–7) in the VLAN tag; lost when the frame is routed
+
+Layer 3 — IPv4 / IPv6
+
+6-bit DSCP + 2-bit ECN in the ToS / Traffic Class byte; survives end-to-end
+
+Layer 2.5 — MPLS
+
+3-bit Traffic Class (formerly EXP) in each label
+
+Wi-Fi — WMM
+
+4 access categories (Voice, Video, Best effort, Background) mapped from DSCP/UP
+
+Define a trust boundary: re-mark untrusted endpoint traffic at the access edge
+Map consistently between layers at every boundary (e.g. DSCP EF ↔ CoS 5 ↔ MPLS TC 5)
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+14</pre></article><article><h2>Slide 15</h2><pre>Where QoS markings live
+
+EXPLAINED
+
+Markings can be stored at different layers. In Ethernet, an 802.1Q VLAN tag contains a 3-bit Priority Code Point (CoS 0–7). It only exists on the local Layer-2 segment: when a router forwards the packet onto another link, the Ethernet header (and the marking) is replaced.
+In IP, the DSCP field (6 bits) in the IPv4 ToS byte or IPv6 Traffic Class travels end-to-end with the packet, so it is the main marking used across a network. MPLS networks copy the class into the 3-bit Traffic Class field of each label, and Wi-Fi maps it to four WMM access categories that change how aggressively a station contends for the air.
+Because endpoints could mark their own traffic as high priority to get better service, networks define a trust boundary: markings from trusted devices (IP phones, servers) are kept, all others are re-marked at the access edge.
+
+EXAMPLE
+
+A laptop marks all its traffic EF to “jump the queue”. The access switch does not trust laptops, so it re-marks everything from that port to DSCP 0 unless it matches a known video-conferencing application.
+
+REMEMBER
+
+DSCP is the end-to-end marking; CoS, MPLS TC and WMM are local mappings of it. Never trust markings blindly.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+15</pre></article><article><h2>Slide 16</h2><pre>03
+
+Traffic conditioning
+
+Leaky buckets, token buckets, shaping and policing
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+16</pre></article><article><h2>Slide 17</h2><pre>Leaky bucket vs token bucket
+
+Leaky bucket
+
+Packets enter a bucket (queue) of size B
+Leave at a constant rate r
+Overflow is dropped
+Output is perfectly smooth — no bursts at all
+Good for strict rate enforcement (ATM GCRA)
+
+Token bucket
+
+Tokens added at rate r up to depth b
+A packet of L bytes needs L tokens
+Saved tokens allow bursts up to b
+Over any interval t: data ≤ r·t + b
+Used by policers and shapers everywhere
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+17</pre></article><article><h2>Slide 18</h2><pre>Leaky bucket vs token bucket
+
+EXPLAINED
+
+Both algorithms describe and enforce a traffic rate. In a leaky bucket, packets are poured into a bucket with a hole: they leave at a perfectly constant rate r. If too many arrive, the bucket overflows and packets are dropped. Output can never be bursty.
+In a token bucket, the bucket holds tokens, not packets. Tokens are added at rate r up to a maximum depth b. To send a packet of L bytes, L tokens must be removed. If the source was quiet, tokens accumulate, so it can later send a burst of up to b bytes at full line rate.
+The token bucket therefore describes real traffic better: over any interval of length t, a conforming source sends at most r·t + b bytes. This simple formula is used in contracts, in policers, in shapers and in IntServ reservations.
+
+EXAMPLE
+
+r = 1 Mb/s, b = 100 KB. After 10 s of silence the bucket is full, so the source can immediately send 100 KB at line speed, then continue at 1 Mb/s.
+
+REMEMBER
+
+Leaky bucket = smooth constant output. Token bucket = average rate r with bursts up to b.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+18</pre></article><article><h2>Slide 19</h2><pre>Token bucket: worked example
+
+2 Mb/s
+
+Token rate r (CIR)
+
+250 KB
+
+Bucket depth b (CBS)
+
+10 Mb/s
+
+Line rate R (peak)
+
+0.25 s
+
+Max burst duration at line rate
+
+Max burst at peak: T = b / (R − r) = 2 Mb / 8 Mb/s = 0.25 s (sending 2.5 Mb in total, of which 0.5 Mb are new tokens). Over 10 s the flow may send at most r·t + b = 20 Mb + 2 Mb = 22 Mb.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+19</pre></article><article><h2>Slide 20</h2><pre>Token bucket: worked example
+
+EXPLAINED
+
+Consider a contract with CIR (committed information rate) r = 2 Mb/s and CBS (committed burst size) b = 250 KB = 2 Mb, on an access line of R = 10 Mb/s. How long can the customer send at the full line rate?
+While sending at 10 Mb/s, tokens are consumed at 10 Mb/s but refilled at 2 Mb/s, so the bucket empties at a net rate of R − r = 8 Mb/s. A full bucket of 2 Mb lasts 2 / 8 = 0.25 s. During that quarter-second the customer sends 2.5 Mb: 2 Mb from the saved tokens and 0.5 Mb from new tokens.
+Over any longer period the upper bound is r·t + b. In 10 seconds the customer may send at most 20 Mb + 2 Mb = 22 Mb. Anything beyond is non-conforming and will be dropped (policing) or delayed (shaping).
+
+EXAMPLE
+
+Same contract over 1 minute: max 2 × 60 + 2 = 122 Mb ≈ 15.25 MB. Average 2 Mb/s plus a single 2 Mb burst allowance.
+
+REMEMBER
+
+Burst duration at peak = b / (R − r). Maximum data in time t = r·t + b.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+20</pre></article><article><h2>Slide 21</h2><pre>Policing vs shaping
+
+Policing
+
+Excess traffic is dropped or re-marked
+No buffering ⇒ no added delay
+Causes TCP loss and saw-tooth throughput
+Applied inbound or outbound
+Typical at provider ingress (enforce the contract)
+
+Shaping
+
+Excess traffic is queued and delayed
+Smooth output, fewer drops
+Adds delay and needs buffers
+Applied outbound only
+Typical at customer egress (conform to the contract)
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+21</pre></article><article><h2>Slide 22</h2><pre>Policing vs shaping
+
+EXPLAINED
+
+Both tools compare traffic against a token bucket; they differ in what they do with excess packets. A policer drops them (or re-marks them to a lower class) immediately. It adds no delay and needs no buffer, but drops cause TCP to cut its window, so TCP through a policer shows a saw-tooth and often achieves well below the policed rate.
+A shaper holds excess packets in a queue and releases them when tokens are available. The output is smooth and drops are rare, but packets are delayed and the device needs buffer memory. Shaping is only possible on output, because you cannot delay packets that have already arrived on an input.
+In a typical design, the service provider polices at its ingress to enforce the contract, and the customer shapes at its egress to stay within that contract, so the provider’s policer never has to drop anything.
+
+EXAMPLE
+
+A customer buys 20 Mb/s on a 100 Mb/s port. Without shaping, bursts at 100 Mb/s are dropped by the provider’s policer. With a 20 Mb/s shaper on the customer router, bursts are queued for a few ms instead of lost.
+
+REMEMBER
+
+Policing: drop excess, no delay. Shaping: queue excess, add delay. Provider polices, customer shapes.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+22</pre></article><article><h2>Slide 23</h2><pre>Policer colour models
+
+1
+
+Single-rate two-colour
+
+One token bucket (CIR, CBS). Conform ⇒ transmit (green); exceed ⇒ drop (red).
+
+2
+
+srTCM (RFC 2697)
+
+Single rate, two buckets: CBS and EBS. Green / yellow (re-mark to higher drop precedence) / red.
+
+3
+
+trTCM (RFC 2698)
+
+Two rates: CIR and PIR, each with its own bucket. Traffic above PIR is red, between CIR and PIR is yellow.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+23</pre></article><article><h2>Slide 24</h2><pre>Policer colour models
+
+EXPLAINED
+
+A simple policer has two outcomes: conform (send) or exceed (drop). Standards define richer “colour” models with three outcomes, so traffic slightly over contract can be forwarded with a lower priority instead of dropped.
+The single-rate three-colour marker (srTCM) uses one rate (CIR) and two bucket sizes: packets within the committed burst are green, those using the extra burst (EBS) are yellow, and the rest are red. The two-rate three-colour marker (trTCM) uses two rates: up to CIR is green, between CIR and the peak rate (PIR) is yellow, above PIR is red.
+Green packets are forwarded normally, yellow packets are forwarded but re-marked with a higher drop precedence (for example from AF11 to AF12), and red packets are dropped. Under congestion, yellow traffic is discarded first.
+
+EXAMPLE
+
+Contract CIR 10 Mb/s, PIR 20 Mb/s. A customer sending 15 Mb/s has 10 Mb/s green and 5 Mb/s yellow: all is delivered when the network is quiet, but the yellow part is dropped first at busy times.
+
+REMEMBER
+
+Green = within contract, yellow = excess but allowed if capacity exists, red = dropped.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+24</pre></article><article><h2>Slide 25</h2><pre>Shaping and policing with Linux tc
+
+# Shape egress to 10 Mbit/s with Token Bucket Filter
+tc qdisc add dev eth0 root tbf \
+    rate 10mbit burst 32kbit latency 50ms
+
+# Hierarchical shaping with HTB
+tc qdisc add dev eth0 root handle 1: htb default 20
+tc class add dev eth0 parent 1: classid 1:1 htb rate 100mbit
+tc class add dev eth0 parent 1:1 classid 1:10 htb rate 20mbit ceil 100mbit prio 0
+tc class add dev eth0 parent 1:1 classid 1:20 htb rate 80mbit ceil 100mbit prio 1
+
+# Police ingress traffic to 5 Mbit/s
+tc qdisc add dev eth0 ingress
+tc filter add dev eth0 parent ffff: protocol ip u32 \
+    match u32 0 0 police rate 5mbit burst 64k drop
+
+tbf: simple single-rate shaper
+htb: guaranteed rate + borrowable ceil per class
+
+police action drops excess with no queue
+Used hands-on in Lab 3
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+25</pre></article><article><h2>Slide 26</h2><pre>Shaping and policing with Linux tc
+
+EXPLAINED
+
+Linux implements QoS with the tc (traffic control) command. A qdisc (queueing discipline) is attached to an interface. tbf (token bucket filter) is the simplest shaper: rate is r, burst is b, and latency limits how long a packet may wait in the queue before being dropped.
+HTB (hierarchical token bucket) builds a tree of classes. Each class has a rate (guaranteed bandwidth) and a ceil (maximum it may reach by borrowing unused bandwidth from its parent). Filters assign packets to classes, for example by DSCP or port.
+Policing uses the police action, usually on the special ingress qdisc for incoming traffic. It has no queue: packets above the rate are dropped immediately. The command tc -s qdisc show prints counters for sent, dropped and over-limit packets, which is how you verify a policy works.
+
+EXAMPLE
+
+An HTB class with rate 20mbit ceil 100mbit is guaranteed 20 Mb/s and may use up to 100 Mb/s when other classes are idle.
+
+REMEMBER
+
+tbf = simple shaper, htb = hierarchical shaping with borrowing, police = drop excess on ingress. Lab 3 uses all three.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+26</pre></article><article><h2>Slide 27</h2><pre>Token-bucket calculations
+
+IN-CLASS ACTIVITY · 20 MIN
+
+A customer buys CIR = 4 Mb/s with CBS = 100 KB on a 100 Mb/s access link.
+
+What is the maximum duration of a line-rate burst that conforms?
+How many bytes may the customer send in any 5-second window?
+A 1 MB file is sent at line rate after a long idle period. How much is dropped by a policer?
+If instead the customer shapes to CIR, how long does the 1 MB transfer take?
+Why might TCP throughput through the policer be well below 4 Mb/s?
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+27</pre></article><article><h2>Slide 28</h2><pre>Check your understanding
+
+Q1
+
+Which QoS metric is most important for VoIP, and which component of delay can QoS influence?
+
+Q2
+
+Why should classification and marking happen at the network edge rather than in the core?
+
+Q3
+
+Over a 2-second interval, how much can a token-bucket-conformant flow with r = 1 Mb/s and b = 50 KB send?
+
+Q4
+
+Give one reason to police and one reason to shape, and where each is typically placed.
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+28</pre></article><article><h2>Slide 29</h2><pre>Model answers
+
+A1
+
+Delay and jitter (voice tolerates little of either). QoS controls only queueing delay; propagation and transmission delay are fixed by distance and link speed.
+
+A2
+
+Classification can be complex (ports, applications) and needs per-flow inspection; doing it once at the edge, where traffic volume per device is small, keeps core routers fast and allows them to act only on the DSCP.
+
+A3
+
+r·t + b = 1 Mb/s × 2 s + 50 KB = 2 Mb + 0.4 Mb = 2.4 Mb (= 300 KB).
+
+A4
+
+Police at a provider’s ingress to enforce a contract (drop excess, no delay). Shape at a customer’s egress to stay within the contract and avoid drops (queue excess, adds delay).
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+29</pre></article><article><h2>Slide 30</h2><pre>Key takeaways
+
+QoS manages delay, jitter, loss and bandwidth only during congestion
+
+Different applications need very different service levels (voice ≠ backup)
+
+The pipeline is classify → mark → police/shape → queue/schedule → drop
+
+A token bucket (r, b) bounds traffic to r·t + b over any interval t
+
+Policing drops excess immediately; shaping buffers it and adds delay
+
+Reading &amp; next session:  Kurose &amp; Ross §9.5 · Forouzan Ch. 30 (QoS) · RFC 2697, 2698 · Next: Lecture 5 — Scheduling &amp; Integrated Services
+
+IN403  ·  Lecture 4  ·  QoS Fundamentals &amp; Traffic Shaping
+
+30</pre></article><footer>© MOUTASEM-AWAD</footer></main><script>const input=document.querySelector('#search');input.addEventListener('input',()=>{let count=0;document.querySelectorAll('article').forEach(a=>{a.hidden=!a.textContent.toLowerCase().includes(input.value.toLowerCase());if(!a.hidden)count++});document.querySelector('#count').textContent=count+' slides shown'});</script></html>

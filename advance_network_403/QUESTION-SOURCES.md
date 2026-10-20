@@ -1,6 +1,6 @@
 # IN403 question sources
 
-Exactly 45 questions: 15 Normal, 15 Medium, 15 Hard. Source 1 is the supplied PowerPoint (slides 1–37); source 2 is the supplied PDF (pages 1–34). Source 3 is Lecture 03 (PDF pages 1–36). Questions paraphrase or apply the lectures, not the course roadmap topics.
+Exactly 60 questions: 20 Normal, 20 Medium, 20 Hard. Source 1 is the supplied PowerPoint (slides 1–37); source 2 is the supplied PDF (pages 1–34). Source 3 is Lecture 03 (PDF pages 1–36). Questions paraphrase or apply the lectures, not the course roadmap topics.
 
 | ID | Level | Topic | Lecture / position |
 |---|---|---|---|
@@ -49,3 +49,23 @@ Exactly 45 questions: 15 Normal, 15 Medium, 15 Hard. Source 1 is the supplied Po
 | q043 | Hard | CUBIC & BBR | Lecture 3, PDF page 16 |
 | q044 | Hard | CUBIC & BBR | Lecture 3, PDF page 17 |
 | q045 | Hard | TCP optimization | Lecture 3, PDF page 30 |
+
+Source 4: Lecture 04 PowerPoint (slides 1–30).
+
+| ID | Level | Topic | Lecture / position |
+|---|---|---|---|
+| q046 | Normal | QoS fundamentals | Lecture 4, slide 5 |
+| q047 | Normal | QoS fundamentals | Lecture 4, slide 7 |
+| q048 | Normal | Classification & marking | Lecture 4, slide 12 |
+| q049 | Normal | Traffic conditioning | Lecture 4, slide 17 |
+| q050 | Normal | Traffic conditioning | Lecture 4, slide 21 |
+| q051 | Medium | QoS fundamentals | Lecture 4, slide 10 |
+| q052 | Medium | QoS fundamentals | Lecture 4, slide 8 |
+| q053 | Medium | Classification & marking | Lecture 4, slide 15 |
+| q054 | Medium | Traffic conditioning | Lecture 4, slide 18 |
+| q055 | Medium | Linux traffic control | Lecture 4, slide 26 |
+| q056 | Hard | Traffic conditioning | Lecture 4, slide 20 |
+| q057 | Hard | Traffic conditioning | Lecture 4, slide 29 |
+| q058 | Hard | Traffic conditioning | Lecture 4, slide 20 |
+| q059 | Hard | Traffic conditioning | Lecture 4, slide 18 |
+| q060 | Hard | Linux traffic control | Lecture 4, slide 26 |
