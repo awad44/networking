@@ -1,10 +1,11 @@
-# Lecture 04 update verification
+# Lectures 05 and 06 update verification
 
-- Exactly 60 unique questions, 20 per difficulty, with four distinct options, one valid answer index and source positions within lecture bounds.
-- All original 45 question objects are unchanged; q046–q060 cite Lecture 04 slide numbers.
-- Browser check completed a full 60-question exam with a 60/60 score and 60 review cards.
-- Five resource cards remain available. Lecture 04 original PPTX matches the supplied source hash; its download and text preview work. The searchable text view contains 30 slides.
-- 20-question selection, Lecture 04 slide labels, mobile overflow checks and JavaScript syntax pass. No browser runtime errors recorded.
-- Calculations checked: 2 Mb/(10−2) Mb/s=0.25 s; (1 Mb/s×2 s+0.4 Mb)/8=300000 B; min(275000 B,125000 B)=125000 B; (1500−500)/100000=0.01 s; min(50,100−65)=35 Mb/s.
+- Exactly 90 unique question IDs and prompts; 30 Normal, 30 Medium, 30 Hard.
+- q001–q060 are unchanged. Lecture 05 appends q061–q075 and Lecture 06 appends q076–q090, each with five questions per level.
+- Every question has four distinct options, one valid answer index and a source position within its lecture bounds.
+- The 90-question browser exam scores 90/90 with 90 review cards and correct slide labels for the new lectures.
+- Seven resource cards are present. Both original PPTX files match the supplied source hashes. Their URLs, downloads, inline text previews and searchable views work (26 slides for Lecture 05; 28 for Lecture 06).
+- Mobile overflow and JavaScript syntax checks pass; no browser runtime errors recorded. Mobile resource screenshot inspected.
+- Calculations checked: WFQ shares 7.5/2.5 Mb/s; virtual finishes 650/900; DRR round3 credit300 B; priority remainder shares6.75/2.25 Mb/s; RSVP≈133333 messages/s; AF23=22; DS byte46*4+3=187;185>>2=46 and ECN1;30*87kb/s=2.61Mb/s or5.22% of50Mb/s;3 TC bits give8 values.
 
-This update has not been committed or pushed by the assistant.
+The update has not been committed or pushed by the assistant.

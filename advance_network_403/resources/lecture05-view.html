@@ -1,0 +1,502 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lecture 05 · Slide-text view</title><style>body{margin:0;background:#f5f4ee;color:#183c2c;font:16px/1.6 system-ui}main{max-width:900px;margin:auto;padding:25px}article{padding:20px;border:1px solid #bccbbf;background:white;border-radius:10px;margin:16px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}input{width:100%;box-sizing:border-box;padding:14px;font:inherit}a{color:inherit}h1{line-height:1.2}footer{padding:25px}@media(max-width:500px){main,article{padding:15px}}</style><main><a href="../">← Advanced Network 403</a><h1>Lecture 05 · Scheduling &amp; IntServ</h1><p>26 slides · Searchable text extracted from the supplied PowerPoint. This view does not reproduce diagrams, animations or full slide layout.</p><a href="IN403_Lecture05_Scheduling_IntServ.pptx" download>Download original PowerPoint ↓</a><p><label for="search">Search slide text</label></p><input id="search" type="search" placeholder="Search this lecture"><p id="count" role="status">26 slides shown</p><article><h2>Slide 1</h2><pre>IN403  ·  Advanced Network Protocols, Architectures &amp; Security
+
+LECTURE 05  ·  2 HOURS
+
+Quality of Service II: Packet Scheduling &amp; Integrated Services
+
+FIFO, priority, fair queueing and WRED, then per-flow guarantees with IntServ and RSVP
+
+Course topic: Quality of Service (QoS)</pre></article><article><h2>Slide 2</h2><pre>Learning objectives
+
+By the end of this session you will be able to:
+
+1
+
+Compare FIFO, strict priority, round-robin, WFQ, DRR and CBWFQ/LLQ schedulers
+
+2
+
+Explain congestion-avoidance drop policies: tail drop, RED and WRED
+
+3
+
+Describe the IntServ model and its Guaranteed and Controlled-Load services
+
+4
+
+Trace RSVP PATH/RESV signalling and soft-state reservation
+
+5
+
+Evaluate why IntServ does not scale and when it is still used
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+2</pre></article><article><h2>Slide 3</h2><pre>Session plan (120 minutes)
+
+10′
+
+30′
+
+15′
+
+10′
+
+30′
+
+15′
+
+10′
+
+0:00 – 0:10
+
+Recap: the QoS toolchain
+
+0:10 – 0:40
+
+Scheduling disciplines
+
+0:40 – 0:55
+
+Drop policies: RED and WRED
+
+0:55 – 1:05
+
+Break
+
+1:05 – 1:35
+
+IntServ and RSVP
+
+1:35 – 1:50
+
+Activity: WFQ / DRR scheduling exercise
+
+1:50 – 2:00
+
+Quiz and wrap-up
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+3</pre></article><article><h2>Slide 4</h2><pre>01
+
+Packet scheduling
+
+Who gets to transmit next on the output link?
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+4</pre></article><article><h2>Slide 5</h2><pre>Scheduling disciplines
+
+1
+
+FIFO
+
+Single queue, first come first served. Simple, no isolation: one aggressive flow hurts everyone.
+
+2
+
+Strict priority (PQ)
+
+Always serve the highest non-empty queue. Lowest delay for top class but can starve lower classes.
+
+3
+
+Round robin / WRR
+
+Cycle through queues, serving one (or w) packets each. Unfair with variable packet sizes.
+
+4
+
+Fair queueing / WFQ
+
+Emulates bit-by-bit round robin (GPS) via virtual finish times; per-flow or per-class weights.
+
+5
+
+Deficit round robin
+
+Each queue gets a quantum of bytes per round plus carry-over deficit. O(1), byte-fair, used in Linux and switches.
+
+6
+
+CBWFQ + LLQ
+
+Class-based WFQ with a strict-priority low-latency queue for voice, policed to prevent starvation.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+5</pre></article><article><h2>Slide 6</h2><pre>Scheduling disciplines
+
+EXPLAINED
+
+When several queues have packets waiting for the same output link, a scheduler decides which packet goes next. FIFO has a single queue — simple, but a burst from one flow delays everyone behind it.
+Strict priority always empties higher-priority queues first: ideal for latency, but if the top queue never empties, lower queues starve. Round robin visits each queue in turn; weighted round robin serves several packets from heavier queues. Both count packets, so a queue with large packets gets more bytes than one with small packets.
+Fair queueing and WFQ fix this by scheduling according to bytes, approximating an ideal fluid system. DRR achieves byte fairness cheaply with a per-queue credit. Real equipment typically uses LLQ + CBWFQ: one strict-priority queue for voice, protected by a policer so it cannot starve the others, plus weighted queues for other classes.
+
+EXAMPLE
+
+Two queues in round robin: queue A has 1500-byte packets, queue B has 64-byte packets. Each gets one packet per turn, so A receives about 23 times more bandwidth than B.
+
+REMEMBER
+
+PQ = lowest delay but risk of starvation. WFQ/DRR = fair bandwidth sharing. LLQ = PQ with a policer + weighted queues.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+6</pre></article><article><h2>Slide 7</h2><pre>Weighted Fair Queueing (WFQ)
+
+Ideal model — GPS: serve all backlogged flows simultaneously in proportion to weights wᵢ
+Guarantee: flow i gets at least C · wᵢ / Σw when backlogged
+Packet approximation: compute a virtual finish time Fᵢ = max(Fᵢ_prev, V(t)) + Lᵢ / wᵢ
+Transmit the packet with the smallest finish time
+Parekh–Gallager: a token-bucket-shaped flow in WFQ has a bounded worst-case delay ≈ b / rᵢ + Lmax/rᵢ + Lmax/C per hop
+
+W
+
+Why it matters
+
+WFQ is the theoretical foundation of guaranteed service: combining a token-bucket arrival curve with a weighted rate gives a hard delay bound. This is exactly what IntServ Guaranteed Service relies on.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+7</pre></article><article><h2>Slide 8</h2><pre>Weighted Fair Queueing (WFQ)
+
+EXPLAINED
+
+The ideal scheduler, called Generalized Processor Sharing (GPS), serves all non-empty queues at the same time, each at a share proportional to its weight. Real links send one packet at a time, so WFQ simulates GPS: it computes when each packet would have finished in the ideal system (its virtual finish time) and sends the packet with the earliest finish time.
+A packet’s finish time grows with its length divided by its weight, so large packets and low-weight queues are naturally served later. As a result, every backlogged flow receives at least C × wᵢ / Σw of the capacity, no matter how aggressive other flows are.
+Parekh and Gallager proved that if a flow is limited by a token bucket (r, b) and WFQ gives it a rate of at least r, its delay at each hop is bounded. This mathematical guarantee is the basis of IntServ’s Guaranteed Service.
+
+EXAMPLE
+
+Weights 3 and 1 on a 10 Mb/s link: if both queues are busy, they receive 7.5 and 2.5 Mb/s. If queue 2 goes idle, queue 1 can use all 10 Mb/s.
+
+REMEMBER
+
+WFQ = weighted, byte-fair sharing with a guaranteed minimum rate and bounded delay for shaped flows.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+8</pre></article><article><h2>Slide 9</h2><pre>Deficit Round Robin example (quantum = 500 B)
+
+Over time each queue receives the same number of bytes per round regardless of packet sizes.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+9</pre></article><article><h2>Slide 10</h2><pre>Deficit Round Robin example (quantum = 500 B)
+
+EXPLAINED
+
+DRR keeps a deficit counter for each queue. Every round, each non-empty queue receives a quantum of credit (here 500 bytes). The queue may send packets as long as the packet at its head is no larger than its current credit; the credit is reduced by each packet sent.
+Unused credit is carried over to the next round, so a queue with a big packet eventually accumulates enough to send it. When a queue becomes empty, its deficit is reset to zero, so an idle queue cannot save up credit and burst later.
+In the example, queue A’s small packets go out in rounds 1 and 2, while queue B must wait until round 3 to accumulate 1500 bytes of credit for its 1200-byte packet. Over many rounds both queues send the same number of bytes, regardless of packet size, with only O(1) work per packet.
+
+EXAMPLE
+
+Give queue A a quantum of 1000 and B 500: A now receives twice the bandwidth of B — this is how weights are expressed in DRR.
+
+REMEMBER
+
+DRR = round robin with byte credits. Simple, fast and fair. Linux and many switches use it.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+10</pre></article><article><h2>Slide 11</h2><pre>02
+
+Congestion avoidance
+
+Dropping smartly before buffers overflow
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+11</pre></article><article><h2>Slide 12</h2><pre>Tail drop vs RED / WRED
+
+Tail drop problems
+
+Drops only when the buffer is full
+Global synchronisation: many TCP flows back off together, then ramp up together
+Persistent full queues ⇒ high delay
+Bias against bursty flows
+
+RED / WRED
+
+Track average queue length (EWMA)
+Below min_th: no drops; above max_th: drop all
+In between: drop probability rises linearly to max_p
+WRED: different thresholds per DSCP drop precedence
+Can mark with ECN instead of dropping
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+12</pre></article><article><h2>Slide 13</h2><pre>Tail drop vs RED / WRED
+
+EXPLAINED
+
+With tail drop, packets are discarded only when the queue is completely full. Because many TCP flows share the queue, they all experience losses at the same moment, all halve their windows together, and then all grow again together. This global synchronisation makes the link alternate between overload and under-use, and keeps the queue (and delay) high.
+RED (Random Early Detection) watches the average queue length. Below a minimum threshold it never drops; above a maximum threshold it drops everything; in between it drops randomly with a probability that rises linearly. A few flows are slowed early, before the queue overflows, so flows back off at different times.
+WRED uses different thresholds for different markings. Packets with high drop precedence (for example AF13) start being dropped at a lower queue length than packets with low drop precedence (AF11). With ECN, RED can mark packets instead of dropping them.
+
+EXAMPLE
+
+WRED profile: AF11 dropped from 30–40 packets, AF12 from 25–40, AF13 from 20–40. As the queue grows, AF13 traffic is sacrificed first, protecting in-contract AF11 traffic.
+
+REMEMBER
+
+Tail drop synchronises TCP flows. RED/WRED drop early and selectively to keep queues short and stable.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+13</pre></article><article><h2>Slide 14</h2><pre>03
+
+Integrated Services (IntServ)
+
+RFC 1633 — per-flow, end-to-end guarantees
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+14</pre></article><article><h2>Slide 15</h2><pre>IntServ architecture components
+
+Flow specification
+
+TSpec (traffic: r, b, p, m, M) and RSpec (requested rate R, slack S)
+
+Signalling — RSVP
+
+Carries the flowspec hop by hop and installs reservations
+
+Admission control
+
+Each router decides whether it can honour the new reservation
+
+Classifier
+
+Maps packets to reservations by 5-tuple
+
+Scheduler
+
+WFQ-like scheduling to deliver the reserved rate and delay bound
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+15</pre></article><article><h2>Slide 16</h2><pre>IntServ architecture components
+
+EXPLAINED
+
+Integrated Services aims to give individual flows guaranteed treatment end to end, similar to a telephone circuit. A flow describes its traffic with a TSpec (token-bucket rate and burst, peak rate, packet sizes) and requests service with an RSpec (the rate it wants reserved and how much delay slack it can accept).
+A signalling protocol, RSVP, carries these descriptions to every router on the path. Each router runs admission control: if it cannot honour the new request without breaking existing ones, it refuses.
+If accepted, the router installs a classifier entry that recognises the flow’s packets by their 5-tuple and configures its scheduler (typically WFQ) to give the flow the reserved rate. Every router therefore keeps state for every reserved flow.
+
+EXAMPLE
+
+A video-conference flow requests r = 2 Mb/s, b = 20 KB. Each router checks spare capacity on the outgoing link, reserves 2 Mb/s in its WFQ scheduler and adds a 5-tuple filter.
+
+REMEMBER
+
+IntServ = describe the flow (TSpec), request service (RSpec), signal (RSVP), admit, classify and schedule — per flow, per router.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+16</pre></article><article><h2>Slide 17</h2><pre>IntServ service classes
+
+Guaranteed Service (RFC 2212)
+
+Hard, mathematically provable delay bound
+No queueing loss for conforming traffic
+Based on token bucket + WFQ
+For intolerant real-time apps (e.g. circuit emulation)
+
+Controlled-Load (RFC 2211)
+
+“Like an unloaded best-effort network”
+No numeric bounds; low loss and delay
+Admission control prevents overload
+For adaptive real-time apps (e.g. streaming)
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+17</pre></article><article><h2>Slide 18</h2><pre>IntServ service classes
+
+EXPLAINED
+
+Guaranteed Service gives a firm, mathematically provable upper bound on queueing delay and no queueing loss, provided the flow respects its token bucket. It is built on WFQ and the Parekh–Gallager bound, and suits applications that cannot adapt, such as circuit emulation.
+Controlled-Load Service makes a weaker promise: the flow will experience service close to that of an unloaded network — low loss and low delay — but no specific numbers are guaranteed. Admission control ensures the network is not overbooked.
+Traffic without a reservation simply receives best effort. In practice controlled-load is much easier to provide, because it does not require precise worst-case calculations at every hop.
+
+EXAMPLE
+
+An adaptive video player that can adjust its buffer is happy with controlled load. A legacy industrial control system that fails if delay exceeds 20 ms needs guaranteed service.
+
+REMEMBER
+
+Guaranteed = hard numeric bound. Controlled-load = “like an empty network”. Others = best effort.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+18</pre></article><article><h2>Slide 19</h2><pre>RSVP signalling (RFC 2205)
+
+Sender
+
+Router R1
+
+Router R2
+
+Receiver
+
+PATH (TSpec, ADSpec)
+
+PATH (path state stored)
+
+PATH
+
+RESV (FlowSpec)
+
+RESV — admission OK, reserve
+
+RESV — reserve
+
+Data flows with reserved QoS
+
+Periodic PATH / RESV refresh (~30 s)
+
+Receiver-initiated: receivers know what they need
+PATH leaves reverse-path state for RESV
+Soft state: reservations expire unless refreshed
+Multicast-friendly: RESVs merge upstream
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+19</pre></article><article><h2>Slide 20</h2><pre>RSVP signalling (RFC 2205)
+
+EXPLAINED
+
+RSVP reserves resources along the path that packets will actually follow. The sender first sends a PATH message towards the receiver. Each router records the previous hop (path state) and can add information about its capabilities (ADSpec).
+The receiver then answers with a RESV message containing the FlowSpec it wants. RESV travels hop by hop back along the recorded reverse path. Each router performs admission control and, if successful, reserves the resources and forwards RESV upstream. Reservations are receiver-initiated because receivers know what quality they need — important for multicast, where different receivers may want different quality.
+RSVP uses soft state: PATH and RESV are refreshed periodically (about every 30 s). If refreshes stop — because a host crashed or the route changed — the reservation times out automatically.
+
+EXAMPLE
+
+If the routing changes, new PATH refreshes follow the new route and set up state there, while the old reservations simply expire. No explicit tear-down is required (though PathTear/ResvTear exist).
+
+REMEMBER
+
+PATH downstream sets up the path; RESV upstream makes the reservation; periodic refreshes keep it alive.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+20</pre></article><article><h2>Slide 21</h2><pre>Why IntServ did not scale
+
+1
+
+Per-flow state
+
+A core router may carry millions of flows — impossible to keep state, classifiers and refreshes for each.
+
+2
+
+Signalling overhead
+
+Periodic PATH/RESV refresh for every flow on every hop consumes CPU and bandwidth.
+
+3
+
+End-to-end deployment
+
+Every router and every domain must support it — no incentive for partial deployment.
+
+4
+
+Where it lives on
+
+RSVP-TE for MPLS traffic engineering (per-LSP, not per-flow) and some enterprise video systems.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+21</pre></article><article><h2>Slide 22</h2><pre>Why IntServ did not scale
+
+EXPLAINED
+
+IntServ works well in small networks, but the Internet core carries millions of simultaneous flows. Keeping a reservation, classifier entry and scheduler state for each flow on every core router is too expensive in memory and processing.
+Soft state makes it worse: every reservation must be refreshed every 30 seconds on every hop, creating a constant stream of signalling messages. And the benefit only appears if every router and every provider on the path supports IntServ — there is little reward for deploying it alone.
+RSVP did not disappear: RSVP-TE is widely used to reserve bandwidth for MPLS traffic-engineering tunnels. There it signals a few thousand aggregate tunnels instead of millions of individual flows, which scales well. For general QoS, the industry moved to DiffServ, the topic of the next lecture.
+
+EXAMPLE
+
+A core router with 2 million flows and 30 s refreshes would process about 130 000 RSVP messages per second just to maintain existing reservations.
+
+REMEMBER
+
+Per-flow state does not scale to the core. Aggregate (per-class) treatment does — that is DiffServ.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+22</pre></article><article><h2>Slide 23</h2><pre>Scheduling exercise
+
+IN-CLASS ACTIVITY · 15 MIN
+
+Three queues share a 10 Mb/s link: Voice (strict priority, 1 Mb/s), Video (weight 3), Data (weight 1).
+
+With all queues saturated, what bandwidth does each class receive?
+If Voice suddenly sends 4 Mb/s and is not policed, what happens to Data?
+Propose an LLQ configuration that protects Data while keeping voice latency low.
+Compute the per-hop transmission delay of a 1500 B data packet at 10 Mb/s and explain its impact on voice jitter.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+23</pre></article><article><h2>Slide 24</h2><pre>Check your understanding
+
+Q1
+
+Why does plain round robin give unfair bandwidth when packet sizes differ, and how does DRR fix it?
+
+Q2
+
+What is global synchronisation and how does RED prevent it?
+
+Q3
+
+In RSVP, why does the PATH message travel before RESV, and why is the reservation receiver-initiated?
+
+Q4
+
+Explain two reasons why IntServ is unsuitable for the Internet core.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+24</pre></article><article><h2>Slide 25</h2><pre>Model answers
+
+A1
+
+Round robin sends one packet per queue per turn, so queues with bigger packets get more bytes. DRR gives each queue a byte credit (quantum) per round and carries over unused credit, so bytes, not packets, are shared fairly.
+
+A2
+
+With tail drop many TCP flows lose packets at the same moment and back off and ramp up together, wasting capacity. RED drops randomly before the queue is full, so different flows back off at different times.
+
+A3
+
+PATH installs path state (previous hop) so RESV can follow the exact reverse path. Receivers know the quality they need (and in multicast may differ), so they request the reservation.
+
+A4
+
+Per-flow state on every core router (memory, classification, scheduling) and constant soft-state refresh signalling; also it requires deployment on every router and domain along the path.
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+25</pre></article><article><h2>Slide 26</h2><pre>Key takeaways
+
+Schedulers trade isolation, fairness and latency: PQ for voice, WFQ/DRR for fair sharing
+
+RED/WRED drop early and probabilistically to avoid global synchronisation
+
+IntServ offers per-flow Guaranteed and Controlled-Load service using RSVP
+
+RSVP is receiver-initiated, soft-state and follows the routing table
+
+Per-flow state does not scale — motivating DiffServ
+
+Reading &amp; next session:  RFC 1633, 2205, 2211, 2212 · Forouzan Ch. 30 · Next: Lecture 6 — Differentiated Services (DiffServ)
+
+IN403  ·  Lecture 5  ·  Scheduling &amp; IntServ
+
+26</pre></article><footer>© MOUTASEM-AWAD</footer></main><script>const input=document.querySelector('#search');input.addEventListener('input',()=>{let count=0;document.querySelectorAll('article').forEach(a=>{a.hidden=!a.textContent.toLowerCase().includes(input.value.toLowerCase());if(!a.hidden)count++});document.querySelector('#count').textContent=count+' slides shown'});</script></html>

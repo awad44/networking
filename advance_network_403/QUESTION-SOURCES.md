@@ -1,6 +1,6 @@
 # IN403 question sources
 
-Exactly 60 questions: 20 Normal, 20 Medium, 20 Hard. Source 1 is the supplied PowerPoint (slides 1–37); source 2 is the supplied PDF (pages 1–34). Source 3 is Lecture 03 (PDF pages 1–36). Questions paraphrase or apply the lectures, not the course roadmap topics.
+Exactly 90 questions: 30 Normal, 30 Medium, 30 Hard. Source 1 is the supplied PowerPoint (slides 1–37); source 2 is the supplied PDF (pages 1–34). Source 3 is Lecture 03 (PDF pages 1–36). Questions paraphrase or apply the lectures, not the course roadmap topics.
 
 | ID | Level | Topic | Lecture / position |
 |---|---|---|---|
@@ -69,3 +69,38 @@ Source 4: Lecture 04 PowerPoint (slides 1–30).
 | q058 | Hard | Traffic conditioning | Lecture 4, slide 20 |
 | q059 | Hard | Traffic conditioning | Lecture 4, slide 18 |
 | q060 | Hard | Linux traffic control | Lecture 4, slide 26 |
+
+Sources 5 and 6: Lecture 05 PowerPoint (26 slides), Lecture 06 PowerPoint (28 slides).
+
+| ID | Level | Topic | Lecture / position |
+|---|---|---|---|
+| q061 | Normal | Packet scheduling | Lecture 5, slide 5 |
+| q062 | Normal | Packet scheduling | Lecture 5, slide 6 |
+| q063 | Normal | Packet scheduling | Lecture 5, slide 10 |
+| q064 | Normal | IntServ & RSVP | Lecture 5, slide 16 |
+| q065 | Normal | IntServ & RSVP | Lecture 5, slide 19 |
+| q066 | Medium | Packet scheduling | Lecture 5, slide 6 |
+| q067 | Medium | Queue management | Lecture 5, slide 13 |
+| q068 | Medium | Queue management | Lecture 5, slide 13 |
+| q069 | Medium | IntServ & RSVP | Lecture 5, slide 18 |
+| q070 | Medium | Packet scheduling | Lecture 5, slide 6 |
+| q071 | Hard | Packet scheduling | Lecture 5, slide 8 |
+| q072 | Hard | Packet scheduling | Lecture 5, slide 7 |
+| q073 | Hard | Packet scheduling | Lecture 5, slide 10 |
+| q074 | Hard | Packet scheduling | Lecture 5, slide 23 |
+| q075 | Hard | IntServ & RSVP | Lecture 5, slide 22 |
+| q076 | Normal | DiffServ architecture | Lecture 6, slide 6 |
+| q077 | Normal | DSCP & PHBs | Lecture 6, slide 10 |
+| q078 | Normal | DSCP & PHBs | Lecture 6, slide 8 |
+| q079 | Normal | DSCP & PHBs | Lecture 6, slide 12 |
+| q080 | Normal | DiffServ architecture | Lecture 6, slide 20 |
+| q081 | Medium | DSCP & PHBs | Lecture 6, slide 15 |
+| q082 | Medium | DSCP & PHBs | Lecture 6, slide 15 |
+| q083 | Medium | DiffServ architecture | Lecture 6, slide 8 |
+| q084 | Medium | MPLS QoS | Lecture 6, slide 21 |
+| q085 | Medium | QoS design | Lecture 6, slide 24 |
+| q086 | Hard | DSCP & PHBs | Lecture 6, slide 15 |
+| q087 | Hard | DSCP & PHBs | Lecture 6, slide 10 |
+| q088 | Hard | DSCP & PHBs | Lecture 6, slide 10 |
+| q089 | Hard | QoS design | Lecture 6, slide 25 |
+| q090 | Hard | MPLS QoS | Lecture 6, slide 21 |

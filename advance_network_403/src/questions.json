@@ -1078,5 +1078,545 @@
       "lecture": 4,
       "page": 26
     }
+  },
+  {
+    "id": "q061",
+    "difficulty": "Normal",
+    "topic": "Packet scheduling",
+    "prompt": "Which scheduling discipline serves packets in arrival order from one queue?",
+    "options": [
+      "FIFO",
+      "Strict priority",
+      "WFQ",
+      "DRR"
+    ],
+    "correctIndex": 0,
+    "explanation": "FIFO is a single first-in, first-out queue and does not isolate competing traffic classes.",
+    "source": {
+      "lecture": 5,
+      "page": 5
+    }
+  },
+  {
+    "id": "q062",
+    "difficulty": "Normal",
+    "topic": "Packet scheduling",
+    "prompt": "What is the main risk of an uncapped strict-priority queue?",
+    "options": [
+      "It can starve lower-priority queues",
+      "It always sorts packets by IP address",
+      "It prevents all packet loss",
+      "It guarantees equal bandwidth to every queue"
+    ],
+    "correctIndex": 0,
+    "explanation": "If the highest-priority queue never empties, lower-priority queues may never be served.",
+    "source": {
+      "lecture": 5,
+      "page": 6
+    }
+  },
+  {
+    "id": "q063",
+    "difficulty": "Normal",
+    "topic": "Packet scheduling",
+    "prompt": "What does DRR give each non-empty queue every round?",
+    "options": [
+      "A quantum of byte credit",
+      "A new IP address",
+      "A fixed number of TCP connections",
+      "A replacement DSCP field"
+    ],
+    "correctIndex": 0,
+    "explanation": "Deficit Round Robin accounts for bytes, adding a quantum to each non-empty queue's deficit counter.",
+    "source": {
+      "lecture": 5,
+      "page": 10
+    }
+  },
+  {
+    "id": "q064",
+    "difficulty": "Normal",
+    "topic": "IntServ & RSVP",
+    "prompt": "What does IntServ maintain at routers for reserved traffic?",
+    "options": [
+      "Per-flow reservation and classification state",
+      "Only one undifferentiated best-effort queue",
+      "No reservation state at any hop",
+      "A DNS record for every packet"
+    ],
+    "correctIndex": 0,
+    "explanation": "IntServ installs per-flow state and scheduling treatment at every participating router.",
+    "source": {
+      "lecture": 5,
+      "page": 16
+    }
+  },
+  {
+    "id": "q065",
+    "difficulty": "Normal",
+    "topic": "IntServ & RSVP",
+    "prompt": "What does RSVP soft state mean?",
+    "options": [
+      "Reservations expire unless periodically refreshed",
+      "Reservations can never be removed",
+      "Packets need no routing information",
+      "Only the sender may cancel a reservation"
+    ],
+    "correctIndex": 0,
+    "explanation": "Periodic PATH and RESV refreshes keep the state alive; it times out if refreshes stop.",
+    "source": {
+      "lecture": 5,
+      "page": 19
+    }
+  },
+  {
+    "id": "q066",
+    "difficulty": "Medium",
+    "topic": "Packet scheduling",
+    "prompt": "Two queues each send one packet per round: A uses 1500-byte packets and B uses 64-byte packets. Why is plain round robin not byte-fair?",
+    "options": [
+      "A transmits more bytes per turn even though packet counts are equal",
+      "B always receives more bandwidth because its packets are smaller",
+      "Both send exactly the same number of bytes per round",
+      "Round robin measures byte deficits automatically"
+    ],
+    "correctIndex": 0,
+    "explanation": "Equal packet service is not equal byte service; A receives 1500/64, about 23.4 times as many bytes per round.",
+    "source": {
+      "lecture": 5,
+      "page": 6
+    }
+  },
+  {
+    "id": "q067",
+    "difficulty": "Medium",
+    "topic": "Queue management",
+    "prompt": "How does RED reduce the global synchronization associated with tail drop?",
+    "options": [
+      "It randomly drops or marks before a full queue makes many flows back off together",
+      "It forces every flow to halve its window simultaneously",
+      "It disables TCP congestion control",
+      "It waits until every router buffer is full"
+    ],
+    "correctIndex": 0,
+    "explanation": "Early probabilistic signals make different flows reduce sending at different times.",
+    "source": {
+      "lecture": 5,
+      "page": 13
+    }
+  },
+  {
+    "id": "q068",
+    "difficulty": "Medium",
+    "topic": "Queue management",
+    "prompt": "In the lecture's WRED example, why is AF13 discarded before AF11 as the AF1 queue fills?",
+    "options": [
+      "AF13 has higher drop precedence and lower early-drop thresholds",
+      "AF13 is always routed to a different physical link",
+      "AF11 is not allowed in the AF1 queue",
+      "The number 13 guarantees higher bandwidth"
+    ],
+    "correctIndex": 0,
+    "explanation": "Different drop-precedence markings select different WRED profiles inside a class.",
+    "source": {
+      "lecture": 5,
+      "page": 13
+    }
+  },
+  {
+    "id": "q069",
+    "difficulty": "Medium",
+    "topic": "IntServ & RSVP",
+    "prompt": "Which distinction between Guaranteed and Controlled-Load IntServ service is correct?",
+    "options": [
+      "Guaranteed has a numeric delay bound; Controlled-Load resembles an unloaded network without numeric bounds",
+      "Controlled-Load always offers a stricter mathematical delay bound",
+      "Guaranteed is merely unreserved best effort",
+      "Both eliminate the need for admission control"
+    ],
+    "correctIndex": 0,
+    "explanation": "Guaranteed Service provides a hard bound for conforming traffic; Controlled-Load offers low-delay, low-loss service without specific numeric bounds.",
+    "source": {
+      "lecture": 5,
+      "page": 18
+    }
+  },
+  {
+    "id": "q070",
+    "difficulty": "Medium",
+    "topic": "Packet scheduling",
+    "prompt": "Why is the LLQ strict-priority voice queue policed alongside weighted queues?",
+    "options": [
+      "To keep voice delay low without letting voice starve other classes",
+      "To make voice use only the last available slot",
+      "To convert all packets into equal sizes",
+      "To remove all bandwidth guarantees"
+    ],
+    "correctIndex": 0,
+    "explanation": "LLQ combines a bounded priority class with weighted treatment for other traffic.",
+    "source": {
+      "lecture": 5,
+      "page": 6
+    }
+  },
+  {
+    "id": "q071",
+    "difficulty": "Hard",
+    "topic": "Packet scheduling",
+    "prompt": "Two continuously backlogged WFQ queues have weights 3 and 1 on a 10 Mb/s link. What weighted shares result?",
+    "options": [
+      "7.5 and 2.5 Mb/s",
+      "5 and 5 Mb/s",
+      "3 and 1 Mb/s",
+      "9 and 1 Mb/s"
+    ],
+    "correctIndex": 0,
+    "explanation": "The ideal weighted share is C*w/sum(w): 10*3/4=7.5 and 10*1/4=2.5 Mb/s.",
+    "source": {
+      "lecture": 5,
+      "page": 8
+    }
+  },
+  {
+    "id": "q072",
+    "difficulty": "Hard",
+    "topic": "Packet scheduling",
+    "prompt": "Using F=max(F_prev,V)+L/w, packet A has F_prev=100,V=150,L=1000,w=2; B has F_prev=300,V=150,L=600,w=1. Which finishes first in this model?",
+    "options": [
+      "A, with finish time 650 versus B's 900",
+      "B, with finish time 450 versus A's 1100",
+      "A, because its finish time is 100",
+      "B, because all smaller packets always go first"
+    ],
+    "correctIndex": 0,
+    "explanation": "A: max(100,150)+1000/2=650. B: max(300,150)+600/1=900. The smaller virtual finish time is selected.",
+    "source": {
+      "lecture": 5,
+      "page": 7
+    }
+  },
+  {
+    "id": "q073",
+    "difficulty": "Hard",
+    "topic": "Packet scheduling",
+    "prompt": "A continuously backlogged DRR queue starts with zero deficit and quantum 500 bytes. Its head packet is 1200 bytes. When can it first send, and what credit remains just after that packet?",
+    "options": [
+      "Round 3, with 300 bytes remaining",
+      "Round 2, with zero remaining",
+      "Round 1, with 700 bytes remaining",
+      "Round 3, with 1500 bytes remaining"
+    ],
+    "correctIndex": 0,
+    "explanation": "Credit becomes 500,1000,1500 across rounds. The first packet fits in round 3 and consumes 1200, leaving 300 while the queue remains non-empty.",
+    "source": {
+      "lecture": 5,
+      "page": 10
+    }
+  },
+  {
+    "id": "q074",
+    "difficulty": "Hard",
+    "topic": "Packet scheduling",
+    "prompt": "On a 10 Mb/s link, voice consumes 1 Mb/s first. Saturated video and data then share the remainder at weights 3:1. What rates result for voice, video and data?",
+    "options": [
+      "1, 6.75 and 2.25 Mb/s",
+      "1, 7.5 and 2.5 Mb/s",
+      "1, 4.5 and 4.5 Mb/s",
+      "3, 5.25 and 1.75 Mb/s"
+    ],
+    "correctIndex": 0,
+    "explanation": "After voice, 9 Mb/s remains. Video receives 9*3/4=6.75 and data 9*1/4=2.25 Mb/s.",
+    "source": {
+      "lecture": 5,
+      "page": 23
+    }
+  },
+  {
+    "id": "q075",
+    "difficulty": "Hard",
+    "topic": "IntServ & RSVP",
+    "prompt": "Assume 2000000 reservations each require one PATH and one RESV refresh every 30 seconds at a router. Approximately how many refresh messages per second is that, excluding other signaling?",
+    "options": [
+      "133333",
+      "66667",
+      "4000000",
+      "30000"
+    ],
+    "correctIndex": 0,
+    "explanation": "There are 2*2000000 messages per 30-second interval, about 133333 per second, illustrating signaling overhead.",
+    "source": {
+      "lecture": 5,
+      "page": 22
+    }
+  },
+  {
+    "id": "q076",
+    "difficulty": "Normal",
+    "topic": "DiffServ architecture",
+    "prompt": "Why does DiffServ scale better than per-flow IntServ in the core?",
+    "options": [
+      "Core routers apply a small set of per-class behaviors instead of maintaining per-flow reservations",
+      "Every core router makes a new reservation for each packet",
+      "Every application gets a dedicated physical link",
+      "DiffServ removes all traffic classification"
+    ],
+    "correctIndex": 0,
+    "explanation": "Traffic is aggregated into classes, avoiding per-flow reservation state and refresh signaling in the core.",
+    "source": {
+      "lecture": 6,
+      "page": 6
+    }
+  },
+  {
+    "id": "q077",
+    "difficulty": "Normal",
+    "topic": "DSCP & PHBs",
+    "prompt": "How is the eight-bit IP DS field divided?",
+    "options": [
+      "Six DSCP bits and two ECN bits",
+      "Two DSCP bits and six ECN bits",
+      "Four MAC bits and four port bits",
+      "Eight DSCP bits with no ECN"
+    ],
+    "correctIndex": 0,
+    "explanation": "DSCP occupies the upper six bits; ECN uses the remaining two bits.",
+    "source": {
+      "lecture": 6,
+      "page": 10
+    }
+  },
+  {
+    "id": "q078",
+    "difficulty": "Normal",
+    "topic": "DSCP & PHBs",
+    "prompt": "What does a Per-Hop Behaviour specify?",
+    "options": [
+      "The forwarding treatment a class receives at a node",
+      "The host's DNS suffix",
+      "A mandatory end-to-end RSVP reservation",
+      "The application's file format"
+    ],
+    "correctIndex": 0,
+    "explanation": "A PHB is local class-based queueing and forwarding treatment selected from the packet's marking.",
+    "source": {
+      "lecture": 6,
+      "page": 8
+    }
+  },
+  {
+    "id": "q079",
+    "difficulty": "Normal",
+    "topic": "DSCP & PHBs",
+    "prompt": "Which standard DSCP value identifies Expedited Forwarding in the lecture?",
+    "options": [
+      "46",
+      "0",
+      "1",
+      "63"
+    ],
+    "correctIndex": 0,
+    "explanation": "EF uses DSCP 46 and is associated with low-delay, low-jitter treatment for traffic such as voice.",
+    "source": {
+      "lecture": 6,
+      "page": 12
+    }
+  },
+  {
+    "id": "q080",
+    "difficulty": "Normal",
+    "topic": "DiffServ architecture",
+    "prompt": "What does the meter do in an edge traffic conditioner?",
+    "options": [
+      "Compare traffic with the agreed profile",
+      "Assign a new route to every packet",
+      "Encrypt the DSCP bits",
+      "Replace all priority queues with FIFO"
+    ],
+    "correctIndex": 0,
+    "explanation": "A meter checks the traffic profile, commonly with token buckets, and reports conformance for subsequent marking or enforcement.",
+    "source": {
+      "lecture": 6,
+      "page": 20
+    }
+  },
+  {
+    "id": "q081",
+    "difficulty": "Medium",
+    "topic": "DSCP & PHBs",
+    "prompt": "What is the relationship between AF13 and AF11?",
+    "options": [
+      "Both belong to AF1, but AF13 has higher drop precedence",
+      "AF13 always has a higher scheduling priority than AF11",
+      "They must use unrelated AF queues",
+      "AF11 is a best-effort DSCP with no AF class"
+    ],
+    "correctIndex": 0,
+    "explanation": "The first digit identifies the AF class; the second selects drop precedence within that class.",
+    "source": {
+      "lecture": 6,
+      "page": 15
+    }
+  },
+  {
+    "id": "q082",
+    "difficulty": "Medium",
+    "topic": "DSCP & PHBs",
+    "prompt": "Does AF4 automatically receive more bandwidth than AF1?",
+    "options": [
+      "No; the operator assigns each independent class its bandwidth share",
+      "Yes; the class number is a universal bandwidth ranking",
+      "Yes; AF4 always receives four times as much",
+      "No AF class can receive bandwidth guarantees"
+    ],
+    "correctIndex": 0,
+    "explanation": "AF class numbers identify independent classes, not an automatic priority order.",
+    "source": {
+      "lecture": 6,
+      "page": 15
+    }
+  },
+  {
+    "id": "q083",
+    "difficulty": "Medium",
+    "topic": "DiffServ architecture",
+    "prompt": "Why may a provider re-mark DSCP at a domain boundary?",
+    "options": [
+      "To translate accepted traffic classes into the provider's policy under the SLA/TCA",
+      "To guarantee public-Internet preservation of every marking",
+      "To remove the need for all scheduling",
+      "To turn a relative class assurance into an automatic hard per-flow guarantee"
+    ],
+    "correctIndex": 0,
+    "explanation": "Domains can use different class definitions, so boundary conditioning maps their agreed treatments.",
+    "source": {
+      "lecture": 6,
+      "page": 8
+    }
+  },
+  {
+    "id": "q084",
+    "difficulty": "Medium",
+    "topic": "MPLS QoS",
+    "prompt": "How do E-LSP and L-LSP identify scheduling treatment differently?",
+    "options": [
+      "E-LSP uses MPLS TC; L-LSP uses the label for scheduling class and TC for drop precedence",
+      "Both use only the destination TCP port",
+      "E-LSP requires one label for every packet byte",
+      "L-LSP ignores the label and reads only ECN"
+    ],
+    "correctIndex": 0,
+    "explanation": "E-LSP infers behavior from TC bits; an L-LSP's label identifies its scheduling class.",
+    "source": {
+      "lecture": 6,
+      "page": 21
+    }
+  },
+  {
+    "id": "q085",
+    "difficulty": "Medium",
+    "topic": "QoS design",
+    "prompt": "Why should an access device re-mark priority traffic from untrusted endpoints?",
+    "options": [
+      "To stop arbitrary endpoint markings from bypassing the intended class policy",
+      "To prevent all users from using IP",
+      "To guarantee every endpoint an EF queue",
+      "To remove the need to monitor congestion"
+    ],
+    "correctIndex": 0,
+    "explanation": "A trust boundary accepts markings from known trusted devices and classifies or re-marks other traffic.",
+    "source": {
+      "lecture": 6,
+      "page": 24
+    }
+  },
+  {
+    "id": "q086",
+    "difficulty": "Hard",
+    "topic": "DSCP & PHBs",
+    "prompt": "Using DSCP=8x+2y, what DSCP identifies AF23, and how does its drop precedence compare with AF21?",
+    "options": [
+      "22; it has higher drop precedence within AF2",
+      "23; it has lower drop precedence within AF2",
+      "46; it belongs to the EF queue",
+      "18; it belongs to AF1"
+    ],
+    "correctIndex": 0,
+    "explanation": "For AF23, x=2 and y=3, so DSCP=16+6=22. Its drop precedence is higher than AF21's within the same AF2 class.",
+    "source": {
+      "lecture": 6,
+      "page": 15
+    }
+  },
+  {
+    "id": "q087",
+    "difficulty": "Hard",
+    "topic": "DSCP & PHBs",
+    "prompt": "An EF packet uses DSCP 46 and ECN bits 11 (decimal 3). What complete DS-field byte results?",
+    "options": [
+      "187 (0xBB)",
+      "184 (0xB8)",
+      "49 (0x31)",
+      "46 (0x2E)"
+    ],
+    "correctIndex": 0,
+    "explanation": "The full byte is DSCP*4+ECN=46*4+3=187, or hexadecimal BB.",
+    "source": {
+      "lecture": 6,
+      "page": 10
+    }
+  },
+  {
+    "id": "q088",
+    "difficulty": "Hard",
+    "topic": "DSCP & PHBs",
+    "prompt": "A captured packet has DS byte 0xB9 (decimal 185). What are its DSCP and ECN values?",
+    "options": [
+      "DSCP 46 and ECN 1",
+      "DSCP 185 and ECN 0",
+      "DSCP 47 and ECN 1",
+      "DSCP 46 and ECN 3"
+    ],
+    "correctIndex": 0,
+    "explanation": "Take the upper six bits: 185>>2=46. The low two bits are 185 mod 4=1.",
+    "source": {
+      "lecture": 6,
+      "page": 10
+    }
+  },
+  {
+    "id": "q089",
+    "difficulty": "Hard",
+    "topic": "QoS design",
+    "prompt": "Thirty calls each need approximately 87 kb/s on a 50 Mb/s WAN. What EF load and percentage result using decimal units?",
+    "options": [
+      "2.61 Mb/s and 5.22%",
+      "26.1 Mb/s and 52.2%",
+      "0.261 Mb/s and 0.522%",
+      "2.61 Mb/s and 33%"
+    ],
+    "correctIndex": 0,
+    "explanation": "30*87=2610 kb/s=2.61 Mb/s. The share is 2.61/50*100=5.22%, below the lecture's approximate 33% design guideline.",
+    "source": {
+      "lecture": 6,
+      "page": 25
+    }
+  },
+  {
+    "id": "q090",
+    "difficulty": "Hard",
+    "topic": "MPLS QoS",
+    "prompt": "A provider wants twelve distinct PHBs encoded one-to-one solely in an E-LSP's three TC bits. What limitation applies?",
+    "options": [
+      "Only eight TC values exist, so twelve cannot be uniquely represented that way",
+      "There are sixteen TC values, so all twelve fit",
+      "Three bits can represent twelve classes if ECN is disabled",
+      "E-LSPs can encode sixty-four PHBs without extra mapping"
+    ],
+    "correctIndex": 0,
+    "explanation": "Three bits give 2^3=8 values. Twelve distinct one-to-one encodings need another design or aggregation strategy.",
+    "source": {
+      "lecture": 6,
+      "page": 21
+    }
   }
 ]

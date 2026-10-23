@@ -1,0 +1,511 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lecture 06 · Slide-text view</title><style>body{margin:0;background:#f5f4ee;color:#183c2c;font:16px/1.6 system-ui}main{max-width:900px;margin:auto;padding:25px}article{padding:20px;border:1px solid #bccbbf;background:white;border-radius:10px;margin:16px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}input{width:100%;box-sizing:border-box;padding:14px;font:inherit}a{color:inherit}h1{line-height:1.2}footer{padding:25px}@media(max-width:500px){main,article{padding:15px}}</style><main><a href="../">← Advanced Network 403</a><h1>Lecture 06 · Differentiated Services (DiffServ)</h1><p>28 slides · Searchable text extracted from the supplied PowerPoint. This view does not reproduce diagrams, animations or full slide layout.</p><a href="IN403_Lecture06_DiffServ.pptx" download>Download original PowerPoint ↓</a><p><label for="search">Search slide text</label></p><input id="search" type="search" placeholder="Search this lecture"><p id="count" role="status">28 slides shown</p><article><h2>Slide 1</h2><pre>IN403  ·  Advanced Network Protocols, Architectures &amp; Security
+
+LECTURE 06  ·  2 HOURS
+
+Quality of Service III: Differentiated Services (DiffServ)
+
+Scalable class-based QoS: the DS field, per-hop behaviours, edge conditioning, MPLS and end-to-end QoS design
+
+Course topic: Quality of Service (QoS)</pre></article><article><h2>Slide 2</h2><pre>Learning objectives
+
+By the end of this session you will be able to:
+
+1
+
+Explain the DiffServ architecture and why it scales better than IntServ
+
+2
+
+Decode the DS field and the standard DSCP values
+
+3
+
+Describe the EF, AF, CS and default per-hop behaviours
+
+4
+
+Explain edge traffic conditioning and DiffServ domains
+
+5
+
+Design an end-to-end QoS policy using DiffServ over IP and MPLS networks
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+2</pre></article><article><h2>Slide 3</h2><pre>Session plan (120 minutes)
+
+10′
+
+20′
+
+25′
+
+10′
+
+20′
+
+25′
+
+10′
+
+0:00 – 0:10
+
+Recap: IntServ limitations
+
+0:10 – 0:30
+
+DiffServ architecture and the DS field
+
+0:30 – 0:55
+
+Per-hop behaviours: EF, AF, CS, BE
+
+0:55 – 1:05
+
+Break
+
+1:05 – 1:25
+
+Edge conditioning, domains, MPLS DiffServ
+
+1:25 – 1:50
+
+Activity: design a 4-class enterprise QoS policy
+
+1:50 – 2:00
+
+Quiz and wrap-up
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+3</pre></article><article><h2>Slide 4</h2><pre>01
+
+DiffServ architecture
+
+RFC 2474 / 2475 — aggregate classes, no per-flow state in the core
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+4</pre></article><article><h2>Slide 5</h2><pre>IntServ vs DiffServ
+
+IntServ
+
+Per-flow reservations
+Signalling (RSVP) on every hop
+Hard guarantees
+State grows with number of flows
+Poor scalability
+
+DiffServ
+
+Per-class (aggregate) treatment
+No signalling — packets carry their class
+Relative / statistical assurances
+Fixed small number of classes
+Scales to the Internet core
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+5</pre></article><article><h2>Slide 6</h2><pre>IntServ vs DiffServ
+
+EXPLAINED
+
+IntServ treats every flow individually and requires signalling before data is sent. DiffServ takes the opposite approach: it defines a small number of traffic classes, and every packet carries its class in the header. Routers treat all packets of the same class the same way, regardless of which flow they belong to.
+There is no signalling and no per-flow state in the core, so DiffServ scales to any network size. The price is that guarantees are relative and statistical rather than absolute: EF traffic gets better service than best effort, but there is no per-flow mathematical bound unless the network is carefully provisioned.
+An airline analogy fits well: IntServ is booking a specific seat on every flight leg; DiffServ is buying a business-class ticket — you are treated better than economy, but your exact experience depends on how full business class is.
+
+EXAMPLE
+
+A provider with 2 million VoIP calls needs only one EF queue on each core router, not 2 million reservations.
+
+REMEMBER
+
+DiffServ = per-class treatment, no signalling, scales to the Internet core; guarantees depend on provisioning.
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+6</pre></article><article><h2>Slide 7</h2><pre>Edge vs core responsibilities
+
+Boundary (edge) nodes
+
+Classify, meter, mark, police/shape according to the Traffic Conditioning Agreement
+
+Interior (core) nodes
+
+Look only at the DSCP and apply its Per-Hop Behaviour — no per-flow state
+
+DS domain
+
+Set of nodes with a common provisioning policy and PHB definitions
+
+SLA / TCA
+
+Contract between domains: which classes, rates and bursts are accepted
+
+Complexity is pushed to the edge where flow counts are small
+Core simply runs queueing and drop policies per class
+Re-marking at domain boundaries maps one provider’s classes to another’s
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+7</pre></article><article><h2>Slide 8</h2><pre>Edge vs core responsibilities
+
+EXPLAINED
+
+DiffServ deliberately places all the complex work at the edge of a domain. Boundary routers classify incoming traffic, measure it against the traffic contract, mark it with the correct DSCP and police or shape it if it exceeds the agreed profile.
+Interior routers do almost nothing extra: they read the DSCP, place the packet in the corresponding queue and apply the drop policy. This behaviour is called a Per-Hop Behaviour (PHB).
+A DS domain is a set of routers sharing the same class definitions — typically one organisation or provider. Between domains, a Service Level Agreement and its technical part, the Traffic Conditioning Agreement, define which classes are accepted, at what rates, and how markings are translated at the border.
+
+EXAMPLE
+
+An enterprise marks voice as EF. Its provider uses DSCP 40 for voice internally, so the provider edge re-marks EF ⇒ 40 on ingress and back on egress.
+
+REMEMBER
+
+Smart edges (classify, meter, mark, police) + simple core (PHB per DSCP) = scalability.
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+8</pre></article><article><h2>Slide 9</h2><pre>The DS field (RFC 2474 / 3168)
+
+DSCP decimal = ToS byte &gt;&gt; 2. Example: EF = 46 ⇒ ToS byte 0xB8 (184).
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+9</pre></article><article><h2>Slide 10</h2><pre>The DS field (RFC 2474 / 3168)
+
+EXPLAINED
+
+DiffServ reuses the old Type of Service byte in the IPv4 header (and the Traffic Class byte in IPv6). The first six bits are the DSCP (Differentiated Services Code Point), giving 64 possible values. The last two bits are used by ECN.
+Before DiffServ, the first three bits were called IP Precedence. To remain compatible, DSCP values whose last three bits are zero (xxx000) are the Class Selector code points CS0–CS7, which behave like precedence 0–7.
+Students often confuse the DSCP value with the ToS byte value. Because the DSCP occupies the upper six bits, the ToS byte equals DSCP × 4 (shifted left by 2 bits). Tools like tcpdump print the ToS byte, while Wireshark shows both.
+
+EXAMPLE
+
+EF = DSCP 46 = binary 101110. Shifted left by two bits: 10111000 = 0xB8 = 184. So ping -Q 0xb8 sends packets marked EF.
+
+REMEMBER
+
+ToS byte = DSCP × 4 + ECN. DSCP 46 (EF) ⇔ ToS 0xB8.
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+10</pre></article><article><h2>Slide 11</h2><pre>02
+
+Per-hop behaviours
+
+Expedited Forwarding, Assured Forwarding, Class Selector, Default
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+11</pre></article><article><h2>Slide 12</h2><pre>The standard PHBs
+
+EF
+
+EF — Expedited Forwarding
+
+DSCP 46 (RFC 3246). Low delay, low jitter, low loss. Served by a priority queue and policed at the edge. For voice.
+
+AF
+
+AF — Assured Forwarding
+
+4 classes × 3 drop precedences (RFC 2597). Each class gets bandwidth; under congestion higher drop precedence is dropped first.
+
+CS
+
+CS — Class Selector
+
+CS0–CS7, backward compatible with IP Precedence. CS6 for network control (routing), CS3/CS4 often signalling.
+
+BE
+
+Default / BE
+
+DSCP 0. Best effort. Should receive a reasonable bandwidth share (often ≥ 25%). LE (DSCP 1, RFC 8622) for scavenger traffic.
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+12</pre></article><article><h2>Slide 13</h2><pre>The standard PHBs
+
+EXPLAINED
+
+Expedited Forwarding (EF) is designed for traffic that needs low delay, low jitter and low loss — classically voice. Routers serve EF from a priority queue. Because priority queues can starve other traffic, EF must be policed at the edge so its volume stays small.
+Assured Forwarding (AF) defines four independent classes, each with its own queue and bandwidth share, and three drop precedences within each class. When an AF queue becomes congested, packets with high drop precedence are dropped first. This is ideal for business data that should be protected but can tolerate some delay.
+Class Selector (CS) values keep compatibility with IP Precedence; CS6 is commonly used for routing protocol traffic. Default (DF, DSCP 0) is best effort, and the newer Lower Effort (LE, DSCP 1) marks scavenger traffic that should use only otherwise idle capacity.
+
+EXAMPLE
+
+Voice bearer → EF; video conferencing → AF41; ERP → AF21; backups → AF11; OSPF/BGP → CS6; software updates → LE.
+
+REMEMBER
+
+EF = priority (policed). AF = 4 classes × 3 drop levels. CS = legacy/control. DF = best effort. LE = scavenger.
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+13</pre></article><article><h2>Slide 14</h2><pre>Assured Forwarding code points
+
+AFxy: x = class (queue), y = drop precedence. DSCP = 8x + 2y. Classes are independent queues; precedence selects WRED thresholds within a class.
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+14</pre></article><article><h2>Slide 15</h2><pre>Assured Forwarding code points
+
+EXPLAINED
+
+AF code points are written AFxy, where x (1–4) is the class and y (1–3) is the drop precedence. The class decides which queue the packet uses and therefore its bandwidth share. The drop precedence decides how early the packet is dropped inside that queue under congestion.
+The decimal DSCP is DSCP = 8x + 2y. Classes do not imply priority over each other: AF4 is not automatically better than AF1 — the network operator decides how much bandwidth each AF class receives.
+Drop precedence is usually set by a three-colour policer at the edge: traffic within the contract is marked AFx1 (green), moderate excess AFx2 (yellow) and large excess AFx3 (red). WRED then uses different thresholds for each, so out-of-contract traffic is discarded first.
+
+EXAMPLE
+
+AF32 = 8×3 + 2×2 = 28. A customer exceeding its committed rate sees its extra traffic re-marked from AF31 (26) to AF32 (28) and dropped first when AF3 is congested.
+
+REMEMBER
+
+AFxy: x = queue/class, y = drop precedence. DSCP = 8x + 2y.
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+15</pre></article><article><h2>Slide 16</h2><pre>Common class mapping (RFC 4594-style)
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+16</pre></article><article><h2>Slide 17</h2><pre>Common class mapping (RFC 4594-style)
+
+EXPLAINED
+
+RFC 4594 gives operators a recommended mapping from service types to DSCPs. Using standard values makes it easier to interconnect equipment from different vendors and to exchange traffic between organisations.
+Each class is matched to a treatment: network control (routing protocols) gets guaranteed bandwidth because if routing fails, everything fails; telephony gets a policed priority queue; signalling and video get bandwidth guarantees; data classes get bandwidth plus WRED; best effort gets the default queue; scavenger traffic gets whatever is left.
+Real devices usually have only 4–8 hardware queues, so several classes are combined. The table is a starting point; each organisation adapts it to its applications and hardware.
+
+EXAMPLE
+
+A 4-queue model: Queue 1 (priority) = EF; Queue 2 = CS6 + CS3 + AF4x; Queue 3 = AF2x + AF3x; Queue 4 = AF1x + DF + LE.
+
+REMEMBER
+
+Use standard DSCPs, then map them onto the queues your hardware actually has.
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+17</pre></article><article><h2>Slide 18</h2><pre>03
+
+Conditioning, domains and MPLS
+
+Making DiffServ work end to end
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+18</pre></article><article><h2>Slide 19</h2><pre>Traffic conditioner at the DS boundary
+
+1
+
+Classifier
+
+Behaviour-aggregate (by DSCP) or multi-field (5-tuple, application) classification.
+
+2
+
+Meter
+
+Token-bucket meter (srTCM / trTCM) compares traffic to the TCA profile.
+
+3
+
+Marker
+
+Sets or re-marks DSCP; out-of-profile AF traffic moves to a higher drop precedence.
+
+4
+
+Shaper / dropper
+
+Delays or drops out-of-profile traffic, e.g. EF above its contracted rate.
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+19</pre></article><article><h2>Slide 20</h2><pre>Traffic conditioner at the DS boundary
+
+EXPLAINED
+
+A traffic conditioner is the chain of functions applied when traffic enters a DS domain. The classifier selects packets — either by existing DSCP (behaviour-aggregate classification) or by multiple header fields such as addresses and ports (multi-field classification).
+The meter compares the classified traffic with its profile, usually a token bucket as in Lecture 4, and reports whether each packet is in or out of profile. The marker sets or changes the DSCP accordingly.
+Finally, the shaper/dropper enforces the profile: for EF, excess packets are dropped so the priority queue is never overloaded; for AF, excess packets are typically re-marked rather than dropped. The conditioner is where the SLA is technically enforced.
+
+EXAMPLE
+
+A provider’s edge: classify customer VoIP (EF), meter at 5 Mb/s, drop anything above 5 Mb/s; classify other traffic as AF21, meter with trTCM, re-mark excess to AF22/AF23.
+
+REMEMBER
+
+Classify → meter → mark → shape/drop. This is where contracts become packet treatment.
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+20</pre></article><article><h2>Slide 21</h2><pre>DiffServ over MPLS (RFC 3270)
+
+E-LSP
+
+PHB inferred from the 3-bit MPLS TC (EXP) field
+Up to 8 PHBs on a single LSP
+Most common in provider networks
+Requires DSCP → TC mapping at ingress PE
+
+L-LSP
+
+PHB scheduling class inferred from the label itself
+TC gives only drop precedence
+One LSP per class
+Combined with RSVP-TE for DS-aware TE
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+21</pre></article><article><h2>Slide 22</h2><pre>DiffServ over MPLS (RFC 3270)
+
+EXPLAINED
+
+In MPLS networks, core routers forward on labels and do not look at the IP header, so they cannot read the DSCP. The class must therefore be represented in the MPLS label stack.
+With E-LSPs (EXP-inferred LSPs), the 3-bit Traffic Class field of each label carries the class, so up to 8 behaviours share one LSP. The ingress PE maps DSCP to TC. This is the common approach. With L-LSPs (label-inferred), a separate LSP is built for each class, and the label itself tells the router which queue to use; TC carries only drop precedence. L-LSPs combine naturally with RSVP-TE to give each class its own engineered path.
+RFC 3270 also defines tunnelling modes: in uniform mode the provider’s marking overwrites the customer’s; in pipe and short-pipe modes the customer’s original DSCP is preserved and restored at the egress, so providers can apply their own policy without disturbing the customer’s markings.
+
+EXAMPLE
+
+Customer DSCP EF ⇒ ingress PE sets MPLS TC = 5 ⇒ core routers queue TC 5 in the priority queue ⇒ egress PE pops the label; with pipe mode the customer still sees DSCP 46.
+
+REMEMBER
+
+MPLS carries the class in the TC bits (E-LSP) or in the label (L-LSP). Tunnelling modes decide whether customer DSCP is preserved.
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+22</pre></article><article><h2>Slide 23</h2><pre>End-to-end QoS design guidelines
+
+1
+
+Keep it simple
+
+Start with 4–6 classes; add classes only when a real application needs them.
+
+2
+
+Limit priority traffic
+
+Keep EF/priority ≤ ~33% of link capacity to preserve headroom for other classes.
+
+3
+
+Protect control traffic
+
+Reserve bandwidth for routing and management (CS6/CS2) so the network stays manageable under load.
+
+4
+
+Trust boundary
+
+Trust markings only from known devices (IP phones, servers); re-mark everything else at access.
+
+5
+
+Consistency
+
+Apply the same policy on every congestion point: WAN edges, uplinks, wireless.
+
+6
+
+Verify
+
+Monitor per-class drops and delay; validate with synthetic tests (IP SLA, TWAMP).
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+23</pre></article><article><h2>Slide 24</h2><pre>End-to-end QoS design guidelines
+
+EXPLAINED
+
+Good QoS designs are simple: start with four to six classes and add more only when a real application requires it. Each additional class costs configuration, testing and troubleshooting effort.
+Limit priority traffic to about a third of a link, because priority queues are served first and could starve everything else. Always reserve bandwidth for network control traffic so routing and management keep working during congestion. Define a clear trust boundary and re-mark untrusted traffic.
+Apply the policy consistently at every congestion point — WAN edges, data-centre uplinks, Wi-Fi — because one unprotected bottleneck ruins the end-to-end result. Finally, verify: monitor per-class drops and delay, and use synthetic probes (IP SLA, TWAMP) to prove the SLA is met. Remember that most public Internet providers reset DSCP to 0, so DiffServ normally works within a domain or under a contract.
+
+EXAMPLE
+
+A 50 Mb/s branch link: EF 10% (priority, policed), AF41 25%, AF21 25%, AF11 10% with WRED, CS6 5%, default 25%.
+
+REMEMBER
+
+Few classes, capped priority, protected control traffic, trust boundary, consistent policy, continuous verification.
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+24</pre></article><article><h2>Slide 25</h2><pre>Design an enterprise QoS policy
+
+IN-CLASS ACTIVITY · 25 MIN
+
+A branch office has a 50 Mb/s WAN link carrying VoIP (30 calls), Teams video, SAP, web and backups.
+
+Define 4–5 classes and assign DSCPs to each
+Compute the EF bandwidth needed (G.711 ≈ 87 kb/s per call on Ethernet) and check it is under 33%
+Allocate bandwidth percentages to the remaining classes
+Choose shaping or policing at the WAN edge and justify
+Specify WRED or tail drop per class
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+25</pre></article><article><h2>Slide 26</h2><pre>Check your understanding
+
+Q1
+
+Why does DiffServ scale better than IntServ? Mention where state is kept.
+
+Q2
+
+Compute the DSCP decimal value of AF23 and the ToS byte for EF.
+
+Q3
+
+Why must EF traffic be policed at the domain edge?
+
+Q4
+
+What happens to a packet marked AF13 versus AF11 when the AF1 queue becomes congested?
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+26</pre></article><article><h2>Slide 27</h2><pre>Model answers
+
+A1
+
+Core routers keep no per-flow state: they only look at the 6-bit DSCP and apply a fixed set of class behaviours. Per-flow work (classification, metering, policing) happens only at the edge.
+
+A2
+
+AF23 = 8×2 + 2×3 = 22. EF = 46 ⇒ ToS byte = 46 × 4 = 184 = 0xB8 (with ECN bits 00).
+
+A3
+
+EF uses a priority queue that is always served first; without a policer, excess EF traffic could consume the whole link and starve all other classes.
+
+A4
+
+Both use the AF1 queue, but AF13 has the higher drop precedence, so WRED starts dropping AF13 at a lower queue depth; AF11 packets survive longer.
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+27</pre></article><article><h2>Slide 28</h2><pre>Key takeaways
+
+DiffServ classifies at the edge and applies per-class PHBs in the core — no per-flow state
+
+The 6-bit DSCP selects the PHB; the remaining 2 bits carry ECN
+
+EF = low-latency priority (policed); AF = 4 classes × 3 drop precedences; CS = legacy precedence
+
+Edge conditioners meter, mark, shape and drop according to the TCA
+
+Good designs use few classes, cap priority traffic and enforce a trust boundary
+
+Reading &amp; next session:  RFC 2474, 2475, 2597, 3246, 4594 · Next: Lecture 7 — Network Function Virtualization: Concepts &amp; Architecture
+
+IN403  ·  Lecture 6  ·  DiffServ
+
+28</pre></article><footer>© MOUTASEM-AWAD</footer></main><script>const input=document.querySelector('#search');input.addEventListener('input',()=>{let count=0;document.querySelectorAll('article').forEach(a=>{a.hidden=!a.textContent.toLowerCase().includes(input.value.toLowerCase());if(!a.hidden)count++});document.querySelector('#count').textContent=count+' slides shown'});</script></html>

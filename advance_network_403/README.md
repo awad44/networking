@@ -1,6 +1,6 @@
 # Advanced Network 403
 
-60 lecture-grounded questions: 20 Normal, 20 Medium and 20 Hard. Each has four distinct options, one correct answer, an explanation, a topic and a slide/PDF-page reference.
+90 lecture-grounded questions: 30 Normal, 30 Medium and 30 Hard. Each has four distinct options, one correct answer, an explanation, a topic and a slide/PDF-page reference.
 
 Features include randomized practice/exam sessions, 10/20/all sessions, topic filters, next-batch continuation, scoring, review, retry and themes. Progress stays in the current page session.
 
@@ -12,7 +12,7 @@ Features include randomized practice/exam sessions, 10/20/all sessions, topic fi
 - Lecture 03: CUBIC, BBR and Optimization, 36-page PDF, inline preview, open and download.
 - Lecture 04: QoS Fundamentals and Traffic Shaping, 30-slide PowerPoint, searchable slide-text view, inline text preview and original download.
 
-PowerPoint text views do not reproduce diagrams, animations or full slide layout. The original files retain those features. The summary is a revision resource; question references cite the four lectures. QUESTION-SOURCES.md lists every question reference.
+PowerPoint text views do not reproduce diagrams, animations or full slide layout. The original files retain those features. The summary is a revision resource; question references cite the six lectures. QUESTION-SOURCES.md lists every question reference.
 
 q001–q045 were preserved when q046–q060 were appended for Lecture 04 (five per difficulty). The new topics cover QoS metrics, application requirements, classification/marking, token buckets, policing/shaping and HTB. Arithmetic questions state their assumptions and units.
 
@@ -21,3 +21,5 @@ q001–q045 were preserved when q046–q060 were appended for Lecture 04 (five p
 Copy advance_network_403 into your existing network repository. Commit and push. Keep GitHub Pages set to main and /(root). The course URL is /network-2208-3304/advance_network_403/ for the existing repository name. Lecture files will be publicly downloadable when published.
 
 © MOUTASEM-AWAD
+
+Lecture 05: Scheduling and IntServ (26 slides), Lecture 06: DiffServ (28 slides). Both original PPTX files include download links, searchable slide-text views and inline text previews. q061–q075 cover Lecture 05 and q076–q090 cover Lecture 06, five per difficulty per lecture. All earlier q001–q060 remain unchanged.
