@@ -1618,5 +1618,275 @@
       "lecture": 6,
       "page": 21
     }
+  },
+  {
+    "id": "q091",
+    "difficulty": "Normal",
+    "topic": "NFV fundamentals",
+    "prompt": "What is the central idea of Network Function Virtualization?",
+    "options": [
+      "Run network functions as software on standard hardware instead of dedicated appliances",
+      "Replace every network protocol with a new physical cable",
+      "Require one proprietary appliance for every service",
+      "Remove all packet processing from networks"
+    ],
+    "correctIndex": 0,
+    "explanation": "NFV decouples a network function from dedicated hardware and runs it on standard servers, storage and switches.",
+    "source": {
+      "lecture": 7,
+      "page": 6
+    }
+  },
+  {
+    "id": "q092",
+    "difficulty": "Normal",
+    "topic": "NFV fundamentals",
+    "prompt": "In the lecture's terminology, what is a VNF?",
+    "options": [
+      "A software network function running in a virtual machine",
+      "A physical cable between routers",
+      "A billing record in the OSS/BSS",
+      "A mandatory SDN controller"
+    ],
+    "correctIndex": 0,
+    "explanation": "A Virtualized Network Function implements a function such as a firewall or router in software running in a VM.",
+    "source": {
+      "lecture": 7,
+      "page": 7
+    }
+  },
+  {
+    "id": "q093",
+    "difficulty": "Normal",
+    "topic": "NFV fundamentals",
+    "prompt": "What is a CNF in Lecture 07?",
+    "options": [
+      "A cloud-native containerized network function",
+      "A TCP congestion-notification flag",
+      "An exclusively physical firewall",
+      "A label-switched physical cable"
+    ],
+    "correctIndex": 0,
+    "explanation": "A CNF is a containerized, cloud-native network function, typically orchestrated using Kubernetes.",
+    "source": {
+      "lecture": 7,
+      "page": 7
+    }
+  },
+  {
+    "id": "q094",
+    "difficulty": "Normal",
+    "topic": "NFV architecture",
+    "prompt": "What does NFVI include?",
+    "options": [
+      "Compute, storage and network hardware plus the virtualization layer",
+      "Only the business billing application",
+      "Only a single firewall process",
+      "Only DSCP markings"
+    ],
+    "correctIndex": 0,
+    "explanation": "NFV Infrastructure comprises hardware resources and the virtualization layer exposing those resources to network functions.",
+    "source": {
+      "lecture": 7,
+      "page": 7
+    }
+  },
+  {
+    "id": "q095",
+    "difficulty": "Normal",
+    "topic": "NFV & SDN",
+    "prompt": "Which statement correctly relates NFV and SDN?",
+    "options": [
+      "They are complementary and either can operate without the other",
+      "NFV requires SDN in every deployment",
+      "SDN is simply another name for a VM",
+      "NFV only separates routing control from forwarding"
+    ],
+    "correctIndex": 0,
+    "explanation": "NFV virtualizes functions, while SDN separates control from forwarding and programs the network; they need not be deployed together.",
+    "source": {
+      "lecture": 7,
+      "page": 8
+    }
+  },
+  {
+    "id": "q096",
+    "difficulty": "Medium",
+    "topic": "NFV fundamentals",
+    "prompt": "Why can NFV improve resource utilization compared with separate peak-sized middleboxes?",
+    "options": [
+      "Software functions can use shared infrastructure rather than isolated appliance capacity",
+      "NFV guarantees all CPUs stay idle",
+      "NFV removes the need for capacity planning",
+      "Every software function must own an entire physical appliance"
+    ],
+    "correctIndex": 0,
+    "explanation": "Separate appliances are sized for their own peaks and often sit idle; pooled infrastructure allows capacity to be shared more flexibly.",
+    "source": {
+      "lecture": 7,
+      "page": 5
+    }
+  },
+  {
+    "id": "q097",
+    "difficulty": "Medium",
+    "topic": "NFV architecture",
+    "prompt": "Which description correctly distinguishes a VNFC, a VNF and a Network Service?",
+    "options": [
+      "A VNFC is a component of a VNF; a Network Service chains functions and their links",
+      "A VNFC is always an entire provider network",
+      "A Network Service is only a single CPU core",
+      "A VNF is a cable and a VNFC is its switch port"
+    ],
+    "correctIndex": 0,
+    "explanation": "A VNFC is one VM/container component within a larger VNF; a Network Service combines VNFs and links into an end-to-end service.",
+    "source": {
+      "lecture": 7,
+      "page": 7
+    }
+  },
+  {
+    "id": "q098",
+    "difficulty": "Medium",
+    "topic": "NFV deployment",
+    "prompt": "Which isolation difference between VMs and containers is shown in the lecture?",
+    "options": [
+      "VMs have separate kernels, while containers share a kernel with process-level isolation",
+      "Containers always have separate physical servers",
+      "VMs and containers have identical isolation boundaries",
+      "Containers cannot run network functions"
+    ],
+    "correctIndex": 0,
+    "explanation": "The deployment comparison lists strong separate-kernel VM isolation versus shared-kernel process isolation for containers.",
+    "source": {
+      "lecture": 7,
+      "page": 13
+    }
+  },
+  {
+    "id": "q099",
+    "difficulty": "Medium",
+    "topic": "Data-plane acceleration",
+    "prompt": "How does DPDK address packet-processing overhead?",
+    "options": [
+      "Use user-space poll-mode processing and bypass the generic kernel networking path",
+      "Add an interrupt for every byte",
+      "Require all packets to traverse more emulated devices",
+      "Eliminate all need for CPU and memory resources"
+    ],
+    "correctIndex": 0,
+    "explanation": "DPDK uses poll-mode drivers, huge pages, batching and related techniques to accelerate user-space packet processing.",
+    "source": {
+      "lecture": 7,
+      "page": 15
+    }
+  },
+  {
+    "id": "q100",
+    "difficulty": "Medium",
+    "topic": "Data-plane acceleration",
+    "prompt": "What tradeoff accompanies SR-IOV in the lecture?",
+    "options": [
+      "Near-native NIC access for VMs, with limits on live migration",
+      "Guaranteed unlimited live migration with no hardware access",
+      "Lower speed because every packet must traverse more emulation",
+      "Removal of all virtual functions from the NIC"
+    ],
+    "correctIndex": 0,
+    "explanation": "SR-IOV exposes NIC virtual functions directly to VMs, improving performance while limiting migration flexibility.",
+    "source": {
+      "lecture": 7,
+      "page": 15
+    }
+  },
+  {
+    "id": "q101",
+    "difficulty": "Hard",
+    "topic": "NFV architecture",
+    "prompt": "An OSS/BSS requests a network service, and the NFVO then asks a VNFM to instantiate its VNF. Which reference points match those two exchanges?",
+    "options": [
+      "Os-Ma-nfvo, then Or-Vnfm",
+      "Vn-Nf, then Nf-Vi",
+      "Or-Vi, then Os-Ma-nfvo",
+      "Ve-Vnfm, then Vn-Nf"
+    ],
+    "correctIndex": 0,
+    "explanation": "Os-Ma-nfvo connects OSS/BSS with NFVO for service requests; Or-Vnfm connects NFVO with VNFM for VNF lifecycle requests.",
+    "source": {
+      "lecture": 7,
+      "page": 11
+    }
+  },
+  {
+    "id": "q102",
+    "difficulty": "Hard",
+    "topic": "NFV architecture",
+    "prompt": "Which mapping correctly separates three infrastructure-related reference points?",
+    "options": [
+      "Vn-Nf: VNF-NFVI; Nf-Vi: NFVI-VIM; Or-Vi: NFVO-VIM",
+      "Vn-Nf: OSS/BSS-NFVO; Nf-Vi: VNF-EM; Or-Vi: VNFM-VNF",
+      "Vn-Nf: NFVO-VNFM; Nf-Vi: OSS/BSS-VIM; Or-Vi: VNF-NFVI",
+      "All three exclusively connect an application to a DNS resolver"
+    ],
+    "correctIndex": 0,
+    "explanation": "The reference-point table assigns Vn-Nf to the execution environment, Nf-Vi to infrastructure allocation/monitoring, and Or-Vi to orchestrator resource requests.",
+    "source": {
+      "lecture": 7,
+      "page": 11
+    }
+  },
+  {
+    "id": "q103",
+    "difficulty": "Hard",
+    "topic": "Data-plane performance",
+    "prompt": "Using the lecture's approximately 67 ns budget per packet, how many CPU cycles are available on a single 3 GHz core?",
+    "options": [
+      "About 201 cycles",
+      "About 201000 cycles",
+      "About 22 cycles",
+      "About 3000000 cycles"
+    ],
+    "correctIndex": 0,
+    "explanation": "A 3 GHz CPU executes 3 cycles/ns. Multiplying 67 ns by 3 cycles/ns gives about 201 cycles per packet.",
+    "source": {
+      "lecture": 7,
+      "page": 14
+    }
+  },
+  {
+    "id": "q104",
+    "difficulty": "Hard",
+    "topic": "Data-plane acceleration",
+    "prompt": "A VNF's NIC is on one NUMA node, but its processing cores and packet memory are on another. Which remedy best matches Lecture 07?",
+    "options": [
+      "Pin processing cores and place packet memory on the NIC's NUMA node",
+      "Increase cross-node memory access deliberately",
+      "Remove CPU affinity so placement can never be controlled",
+      "Disable all packet batching and increase copying"
+    ],
+    "correctIndex": 0,
+    "explanation": "The lecture recommends CPU pinning and memory allocation on the NIC's NUMA node to improve locality and avoid costly remote-memory access.",
+    "source": {
+      "lecture": 7,
+      "page": 15
+    }
+  },
+  {
+    "id": "q105",
+    "difficulty": "Hard",
+    "topic": "Data-plane acceleration",
+    "prompt": "A design needs NIC-hardware offload for encryption and a separate programmable Linux driver-level fast path. Which pairing matches those needs?",
+    "options": [
+      "SmartNIC/DPU for offload, and eBPF/XDP for the kernel fast path",
+      "SR-IOV for business billing, and OSS/BSS for driver execution",
+      "DPDK for physical storage isolation, and NFVO for packet parsing in hardware",
+      "Kubernetes alone for NIC encryption hardware, and a PNF cable for XDP"
+    ],
+    "correctIndex": 0,
+    "explanation": "SmartNICs/DPUs offload functions such as encryption and parsing; eBPF/XDP supplies a programmable fast path inside the Linux kernel at driver level.",
+    "source": {
+      "lecture": 7,
+      "page": 15
+    }
   }
 ]

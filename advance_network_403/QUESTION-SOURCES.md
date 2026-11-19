@@ -1,6 +1,6 @@
 # IN403 question sources
 
-Exactly 90 questions: 30 Normal, 30 Medium, 30 Hard. Source 1 is the supplied PowerPoint (slides 1–37); source 2 is the supplied PDF (pages 1–34). Source 3 is Lecture 03 (PDF pages 1–36). Questions paraphrase or apply the lectures, not the course roadmap topics.
+Exactly 105 questions: 35 Normal, 35 Medium, 35 Hard. Source 1 is the supplied PowerPoint (slides 1–37); source 2 is the supplied PDF (pages 1–34). Source 3 is Lecture 03 (PDF pages 1–36). Questions paraphrase or apply the lectures, not the course roadmap topics.
 
 | ID | Level | Topic | Lecture / position |
 |---|---|---|---|
@@ -104,3 +104,23 @@ Sources 5 and 6: Lecture 05 PowerPoint (26 slides), Lecture 06 PowerPoint (28 sl
 | q088 | Hard | DSCP & PHBs | Lecture 6, slide 10 |
 | q089 | Hard | QoS design | Lecture 6, slide 25 |
 | q090 | Hard | MPLS QoS | Lecture 6, slide 21 |
+
+Source 7: Lecture 07 PDF (18 pages).
+
+| ID | Level | Topic | Lecture / position |
+|---|---|---|---|
+| q091 | Normal | NFV fundamentals | Lecture 7, PDF page 6 |
+| q092 | Normal | NFV fundamentals | Lecture 7, PDF page 7 |
+| q093 | Normal | NFV fundamentals | Lecture 7, PDF page 7 |
+| q094 | Normal | NFV architecture | Lecture 7, PDF page 7 |
+| q095 | Normal | NFV & SDN | Lecture 7, PDF page 8 |
+| q096 | Medium | NFV fundamentals | Lecture 7, PDF page 5 |
+| q097 | Medium | NFV architecture | Lecture 7, PDF page 7 |
+| q098 | Medium | NFV deployment | Lecture 7, PDF page 13 |
+| q099 | Medium | Data-plane acceleration | Lecture 7, PDF page 15 |
+| q100 | Medium | Data-plane acceleration | Lecture 7, PDF page 15 |
+| q101 | Hard | NFV architecture | Lecture 7, PDF page 11 |
+| q102 | Hard | NFV architecture | Lecture 7, PDF page 11 |
+| q103 | Hard | Data-plane performance | Lecture 7, PDF page 14 |
+| q104 | Hard | Data-plane acceleration | Lecture 7, PDF page 15 |
+| q105 | Hard | Data-plane acceleration | Lecture 7, PDF page 15 |
